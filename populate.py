@@ -8,6 +8,8 @@ from books.models import Categori,Publisher,Book
 from faker import Faker
 fake = Faker()
 
+#first tets
+
 dt = json.load()
 
 mainCatsCount = Categori.object.filter(catStatus=0).count()
