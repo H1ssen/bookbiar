@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+
+{%extends 'userPanel/Base.html' %}
+{%load staticfiles%}
+{%block nameBlock%}
+اطلاعات شخصی
+{%endblock%}
+    {%block userPanelBlock%}
+        {%if messages %}
+        <div class="alert alert-danger alert-dismissble d-flex flex-row justify-content-between mr-5 ml-5" >
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {%for message in messages %}
+                <p >{{ message }}</p>
+            {%endfor%}
+        </div>
+        {%endif%}
+        <form action="/UserPanel/Info/" method="post">
+            <div class="form-group">
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-12  mb-3 mt-1">
+                        <h6 style="color:#fc4445"  >پر کردن فیلد های ستاره دار الزامیست</h6>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" >لینک دعوت</label>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="grey">{{invCode}}</span>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" >شماره تلفن</label> <span class="star">*</span>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="grey">{{user.userprofile.phoneNumber}}</span>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn mybtn btn-block">تغییر شماره </button>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey">پست الکترونیک</label>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="grey">ثبت نشده</span>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn mybtn btn-block">تغییر پست الکترونیک </button>
+                    </div>
+                </div>
+                 <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" >رمز عبور</label>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="grey">رمز عبور فرستاده شده به شماره شما</span>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn mybtn btn-block">تغییر رمز </button>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="credit">اعتبار</label>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="grey text-left" >تومان</span>
+                        <span id="credit">{{credit}}</span>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="username">نام نمایشی</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="grey panelInput w-100 d-block mb-0 bg-light" id="username" type="text" value="{{username}}" name="username">
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="name">نام</label>  <span class="star">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="grey panelInput w-100 d-block mb-0 bg-light" id="name" type="text" value="{{name}}" name="name">
+                    </div>
+                </div>
+
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="lastName">نام خانوادگی</label>  <span class="star">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <input  class="grey panelInput w-100 d-block mb-0 bg-light" id="lastName" type="text" value="{{lastName}}" name="lastName">
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="lastName">جنسیت</label>  <span class="star">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                {%if gender == 1%}
+                                    <input type="radio" checked="checked" class="form-check-input" value="1" name="gender"><span class="grey">مرد</span>
+                                {%else%}
+                                    <input type="radio"  class="form-check-input" value="1" name="gender"><span class="grey">مرد</span>
+                                {%endif%}
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                {%if gender == 0%}
+                                    <input type="radio" checked="checked" class="form-check-input" value="0" name="gender"><span class="grey">زن</span>
+                                {%else%}
+                                    <input type="radio"  class="form-check-input" value="0" name="gender"><span class="grey">زن</span>
+                                {%endif%}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="number">شماره ثابت</label>  <span class="star">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <input  class="grey panelInput w-100 d-block mb-0 bg-light" id="number" type="text" value="{{telephone}}" name="number">
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="country">استان</label>  <span class="star">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <select size="1" class="grey panelInput w-100 d-block mb-0 bg-light" id="country"  name="country"></select>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="city">شهر</label>  <span class="star">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <select size="1" class="grey panelInput w-100 d-block mb-0 bg-light" id="city"  name="city"><option>{{city}}</option></select>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="postCode">کد پستی</label>  <span class="star">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <input  class="grey panelInput w-100 d-block mb-0 bg-light" id="postCode" type="text" value="{{postCode}}" name="postCode">
+                    </div>
+                </div>
+                <div  class="row pb-2 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="address">ادرس کامل</label>  <span class="star">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="grey panelInput w-100 d-block mb-0 bg-light" id="address" type="text" value="{{address}}" name="address">
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-12  mb-0 mt-2">
+                        <button type="submit" class="btn btn-block mybtn">ثبت</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {%endblock%}

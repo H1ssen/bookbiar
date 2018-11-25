@@ -1,0 +1,1065 @@
+﻿.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+body {
+    font-family: IranSans,Yekan, BNazanin;
+    background: #f1f1f1;
+    background-image: url(/Themes/Qoqnoos_New/Content/images/back.png) !important;
+}
+
+.main {
+    padding: 50px 0 50px 0;
+}
+
+.block {
+    /*margin: 40px 0 0 0;*/
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: IranSansNum !important;
+}
+
+section {
+    padding: 40px 0;
+    position: relative;
+}
+
+    section.grey {
+        background: #eeeeee;
+    }
+
+.right {
+    float: right;
+}
+
+.divider {
+    text-align: center;
+    margin: 20px 0;
+}
+
+    .divider .img {
+        display: block;
+        background-image: url(/Themes/Qoqnoos_New/Content/images/divider.png);
+        background-repeat: no-repeat;
+        background-size: 200px;
+        height: 27px;
+        width: 200px;
+        margin: 0 auto;
+    }
+
+.clear_h20 {
+    clear: both;
+    height: 20px;
+    width: 100%;
+}
+
+.clear_h40 {
+    clear: both;
+    height: 40px;
+    width: 100%;
+}
+
+.fright {
+    float: right;
+}
+
+.fleft {
+    float: left;
+}
+
+#toppanel {
+    z-index: 9999999 !important;
+}
+
+.clear {
+    clear: both;
+}
+
+.checkbox .checkbox-material .check:before {
+    margin-right: 10px !important;
+    margin-left: 0 !important;
+}
+
+.index-page .page-header {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.index-page .header-filter:after, .presentation-page .header-filter:after {
+    background: transparent !important;
+}
+/* DATETIMEPICKER */
+.popover {
+    min-width: 410px !important;
+}
+/* RADIO */
+.radio label span {
+    right: 10px !important;
+    left: initial;
+}
+
+.radio label {
+    padding-right: 35px !important;
+}
+/* NAV */
+.navbar {
+    /*background: #e21d2e;*/
+    background: linear-gradient(60deg,#E21D30,#B50A1A);
+}
+
+    .navbar .navbar-nav > li > a {
+        font-size: 16px;
+    }
+
+.index-page .page-header, .presentation-page .page-header {
+    /*min-height: 37vh !important;*/
+}
+
+@media (max-width:991px) {
+    .index-page .page-header, .presentation-page .page-header {
+        /*min-height: 475px !important;*/
+    }
+}
+
+@media (min-width:991px) {
+    .index-page .page-header, .presentation-page .page-header {
+        /*min-height: 314px !important;*/
+    }
+}
+
+@media (min-width:1200px) {
+    .index-page .page-header, .presentation-page .page-header {
+        /*min-height: 293px !important;*/
+    }
+}
+
+.page-header .container {
+    padding-top: 100px;
+}
+
+.navbar-toggle {
+    float: right !important;
+    margin-right: 15px;
+}
+
+.navbar-brand {
+    float: left;
+    margin-left: 15px;
+}
+
+
+/* CARD */
+.card-title, .footer-big h4, .footer-big h5, .footer-brand, .info-title, .media .media-heading, .title {
+    font-family: IranSansNum !important;
+}
+
+.info-horizontal .icon {
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+/* FULLADVANCED SEARCH */
+.full-adv-search span {
+}
+/* SEARCHBOX */
+.form-group.label-floating.is-focused label.control-label, .form-group.label-floating:not(.is-empty) label.control-label, .form-group.label-static label.control-label {
+    right: 0 !important;
+}
+
+.search-box-wrapper {
+    background: rgba(0,0,0,0.4);
+    padding: 0 20px 20px 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+    .search-box-wrapper .form-group {
+        padding-bottom: 0;
+        margin: 0;
+    }
+
+        .search-box-wrapper .form-group input[type=text] {
+            color: white;
+        }
+
+.searchbox .input-group-addon .fa {
+    font-size: 35px;
+}
+
+.search-box-container .card {
+    margin-bottom: 0;
+}
+
+.advanced-search_btn {
+    /*padding: 5px 36px !important;
+    font-size: 18px !important;
+    color: white !important;
+    display: block;
+    margin: 0 auto;*/
+}
+
+.advanced-search-link {
+    margin: 25px 0;
+    display: inline-block;
+    font-size: 1.2em;
+    color: darkslategrey;
+}
+
+.header-links {
+}
+
+.header-links-userinfo {
+    text-align: center;
+}
+
+    .header-links-userinfo span {
+        margin: 17px 15px;
+        float: right;
+    }
+
+    .header-links-userinfo a {
+        display: inline-block;
+        padding: 15px;
+        color: white;
+        float: right;
+    }
+
+    .header-links-userinfo .container {
+        padding-top: 0 !important;
+    }
+
+.header-links.shopping-cart {
+    background: #e21d2e;
+    position: relative;
+    color: white;
+    display: inline-block;
+    float: left;
+    margin: 10px 0;
+    font-size: 2em;
+    padding: 0 0 0 40px;
+    border-radius: 5px;
+}
+
+    .header-links.shopping-cart .fa {
+        background: rgba(255,255,255,.5);
+        padding: 14px;
+        display: block;
+        float: right;
+    }
+
+    .header-links.shopping-cart .title {
+        display: block;
+        float: right;
+        padding: 10px;
+        margin: 7px 4px;
+        font-size: .7em;
+    }
+
+    .header-links.shopping-cart .cart-qty {
+        position: absolute;
+        left: 8px;
+        top: 7px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.5);
+        padding: 10px;
+        font-family: IranSansNum;
+    }
+
+.header-footer {
+    width: 100%;
+    /*background-color: #e21d2e !important;*/
+    background: linear-gradient(60deg,#E21D30,#B50A1A);
+    margin: 20px 0 0 0;
+    line-height: 5px;
+    padding: 0;
+}
+
+    .header-footer .header-links-userinfo {
+        display: block;
+    }
+
+    .header-footer .headerlink-wrapper {
+        margin: 0 !important;
+        padding: 5px !important;
+    }
+
+    .header-footer .container {
+        padding-top: 0;
+    }
+
+    .header-footer p {
+        margin: 23px auto;
+        display: block;
+        font-size: 1.4em;
+        text-align: center;
+    }
+/* SEARCHPAGE */
+.search-content {
+    padding: 40px 0;
+}
+
+    .search-content .navbar-form {
+        background-color: #fff;
+        padding: 10px 0;
+        box-shadow: 0 1px 2px #ccc;
+    }
+
+        .search-content .navbar-form > div > label, .search-content .navbar-form > div > span {
+            margin: 0 0 0 5px;
+        }
+
+.product-grid .card.card-product:hover .description {
+    display: block;
+    opacity: 1;
+    transition: 500ms ease-in-out opacity;
+    -webkit-transition: 500ms ease-in-out opacity;
+}
+
+.product-grid .card.card-product .description {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    top: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,.7);
+    border-radius: 3px;
+    color: #fff;
+    text-align: right;
+    /* margin-left: 15px; */
+    /* margin-right: 15px; */
+    margin-top: -30px;
+    box-shadow: 0 5px 15px -8px rgba(0,0,0,.24), 0 8px 10px -5px rgba(0,0,0,.2);
+    transition: 500ms ease-in-out opacity;
+    -webkit-transition: 500ms ease-in-out opacity;
+    font-family:IranSansNum;
+}
+
+    .product-grid .card.card-product .description a {
+        color: white !important;
+    }
+
+    .product-grid .card.card-product .description ul li {
+        margin: 10px 0;
+    }
+/* OWLCAROUSEL */
+.card.card-product {
+    text-align: center;
+    direction: rtl;
+}
+
+    .card.card-product .card-title {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        display: block;
+        font-size: 12px;
+    }
+
+    .card.card-product .footer .price .new {
+        color: green;
+        display: block;
+        font-family: IranSansNum;
+    }
+
+    .card.card-product .footer .price .old {
+        text-decoration: line-through;
+        color: red;
+        display: block;
+        font-family: IranSansNum;
+    }
+
+    .card.card-product .footer .stats {
+        float: none !important;
+        display: block !important;
+    }
+
+    .card.card-product .no-amount {
+        color: red;
+        font-size: 1em;
+        margin: 14px 0 19px 0;
+        display: block;
+    }
+
+    .card.card-product .footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+.card-product {
+    min-height: 395px;
+}
+
+.card .category-social .fa {
+    margin-left: 5px;
+}
+
+.owl-carousel-wrapper {
+    margin: 20px 0;
+    position: relative;
+}
+
+    .owl-carousel-wrapper .title {
+        padding: 0px 15px;
+        font-size: 20px;
+        background-color: #fff;
+        box-shadow: 0 1px 1px #ccc;
+    }
+
+        .owl-carousel-wrapper .title .text-left {
+            float: left;
+            margin-left: 50px;
+        }
+
+        .owl-carousel-wrapper .title > div {
+            display: inline-block;
+        }
+
+        .owl-carousel-wrapper .title a {
+            display: block;
+            padding: 18px;
+            color: #f5f5f5;
+        }
+
+            .owl-carousel-wrapper .title a:hover {
+                color: red;
+            }
+
+.owl-carousel .card-product {
+    min-height: 360px !important;
+}
+
+.owl-theme .owl-controls {
+    position: absolute;
+    top: 0;
+    left: 9px;
+}
+.owl-carousel .owl-item .card .description {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    font-family:IranSansNum;
+    top: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,.7);
+    border-radius: 3px;
+    color: #fff;
+    text-align: right;
+    /* margin-left: 15px; */
+    /* margin-right: 15px; */
+    margin-top: -30px;
+    box-shadow: 0 5px 15px -8px rgba(0,0,0,.24), 0 8px 10px -5px rgba(0,0,0,.2);
+    transition: 500ms ease-in-out opacity;
+    -webkit-transition: 500ms ease-in-out opacity;
+}
+.owl-carousel .owl-item .card:hover .description {
+    display: block;
+    opacity: 1;
+    transition: 500ms ease-in-out opacity;
+    -webkit-transition: 500ms ease-in-out opacity;
+}
+.owl-carousel .owl-item .card .description ul {
+    padding: 10px 10px 0 0;
+}
+    .owl-carousel .owl-item .card .description ul strong {
+        color: #0097a7;
+    }
+    .owl-carousel .owl-item .card .description ul span{
+        display:block;
+    }
+    .owl-carousel .owl-item .card a {
+        color: #fff !important;
+    }
+.owl-carousel .owl-item .card .card-title a {
+    color:black !important;
+}
+        /* MATERIAL CAROUSEL  */
+        @media only screen and (max-width: 768px) {
+            .carousel-indicators {
+        display: none;
+    }
+}
+.owl-carousel .owl-item .footer .stats span {
+    margin: 17px 0;
+    color: red;
+    display: block;
+}
+/* ACCORDION CHECKOUT PAGE */
+.accordion-checkout .panel-collapse {
+    padding: 15px 0;
+}
+
+.accordion-checkout .form-group::after {
+    content: '-';
+    width: 100%;
+    color: transparent;
+    clear: both;
+}
+
+.accordion-checkout .fa-caret-down {
+    margin: 0 0 0 15px;
+}
+/* REGISTRATION PAGE */
+.registration-page .form-control {
+    display: inline-block;
+    width: 60%;
+}
+
+.registration-page span {
+    color: red;
+}
+
+.registration-page input[type=radio] {
+    margin: 0 5px 0 10px;
+}
+/* ACCOUNT INFO PAGE */
+.acc-info-page {
+    padding: 40px 0;
+}
+
+    .acc-info-page .birth-date {
+        display: inline-block;
+        width: 31%;
+    }
+
+    .acc-info-page input[type=text], .acc-info-page input[type=password] {
+        display: inline-block;
+        width: 60%;
+    }
+
+    .acc-info-page .common-dropdown {
+        width: 60%;
+    }
+
+    .acc-info-page input[type=radio] {
+        margin: 0 10px;
+    }
+
+    .acc-info-page span {
+        color: red;
+    }
+/* COMMON */
+.number {
+    font-family: IranSansNum;
+}
+
+.common-textbox {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+}
+
+.common-dropdown {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+/* ACCOUNT ADDRESS PAGE */
+.acc-address-page .form-control {
+    display: inline-block;
+    width: 60%;
+}
+
+.acc-address-page span {
+    color: red;
+}
+/* ACCOUNT CHANGE PASSWORD PAGE */
+.account-change-pass .form-control {
+    width: 60%;
+    display: inline-block;
+}
+
+.account-change-pass span {
+    color: red;
+}
+/* GROUPNAVIGATION */
+.block-category-navigation .card-title {
+    margin: 0;
+    padding: 15px 0;
+}
+
+.block-category-navigation .card-content > ul {
+    padding: 0;
+}
+
+.block-category-navigation .card-content ul li {
+    border-top: 1px solid #eaeaea;
+    padding: 7px 0;
+}
+
+.block-category-navigation .card-content .close {
+    background-image: url(/Themes/Qoqnoos_New/Content/images/rtl-treeview-black-e.gif);
+    background-repeat: no-repeat;
+    background-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-top: 5px;
+}
+
+    .block-category-navigation .card-content .close.expanded {
+        background-image: url(/Themes/Qoqnoos_New/Content/images/rtl-treeview-black-c.gif);
+    }
+/* TOPGOODGROUP */
+.top-good-group {
+    text-align: center;
+    width: 55%;
+    margin: 0 auto;
+}
+
+    .top-good-group:hover {
+        opacity: .7;
+    }
+
+    .top-good-group img {
+        width: 100%;
+    }
+
+    .top-good-group .card-title {
+        font-size: 1.4em;
+    }
+
+.top-gg-wrapper {
+    padding: 8px 0;
+}
+/* HOMEPAGE NEWS */
+.news-list-homepage {
+}
+
+.side-news img {
+    width: 100%;
+    margin: 20px 0;
+}
+/* PUBLICATION */
+.publication-wrapper {
+    margin: 20px 0;
+}
+
+.publication-home .card {
+    min-height: 400px;
+}
+
+.publication-home .card-description ul li {
+    width: 32%;
+    display: inline-block;
+    font-size: 18px;
+    padding: 4px 0;
+}
+
+    .publication-home .card-description ul li:before {
+        content: "\f0d9";
+        font-family: fontawesome;
+        margin: 0px 0 0 5px;
+        display: inline-block;
+        color: #ccc;
+    }
+
+    .publication-home .card-description ul li a:hover {
+        color: black !important;
+    }
+/* LOGIN */
+.login-page {
+    margin: 50px 0 0 0;
+}
+
+    .login-page .register-link {
+        margin: 0 7px;
+        display: inline-block;
+    }
+/* SUBSCRIPTION */
+.subscription-line {
+    background-image: url('/Themes/Qoqnoos_New/Content/images/subscription.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    min-height: 185px;
+}
+
+    .subscription-line > div {
+        margin-top: 60px;
+    }
+
+    .subscription-line .card-form-horizontal {
+        background-color: #e21d2e;
+        position: relative;
+    }
+
+    .subscription-line .subscription-text {
+        float: right;
+        width: 84%;
+        border: none;
+        padding: 10px;
+        background: transparent;
+        color: #fff;
+    }
+
+        .subscription-line .subscription-text::-webkit-input-placeholder {
+            color: white;
+        }
+
+    .subscription-line .btn {
+        float: right;
+        width: 16%;
+        padding: 7px;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+    }
+/* FOOTER */
+.footer-big .content {
+    text-align: right !important;
+}
+
+#templatemo_footer {
+    text-align: center;
+    margin-top: 40px;
+}
+
+    #templatemo_footer ul {
+        list-style: none;
+        color: #eaeaea;
+        font-family:IranSansNum;
+    }
+/* PAGER */
+.pagination {
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 1px 1px #ccc;
+    color: black;
+}
+/* REVIEW */
+.rates-container, .review-container {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 1px 1px #ccc;
+    font-family: IranSansNum;
+}
+
+    .review-container .like {
+        display: inline-block;
+    }
+
+    .review-container .dislike {
+        display: inline-block;
+    }
+/* NEWSCOLAGUE */
+.colleague-news {
+}
+
+    .colleague-news .title {
+        background-color: #fff;
+        box-shadow: 0 1px 2px #ccc;
+        padding: 15px;
+        margin: 0 0 20px 0;
+    }
+
+        .colleague-news .title h1 {
+            font-size: 1.5em;
+            padding: 0;
+            margin: 0;
+        }
+
+    .colleague-news .content {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 1px 2px #ccc;
+    }
+
+        .colleague-news .content img {
+            width: 100%;
+        }
+
+    .colleague-news p {
+    }
+/* LOADING */
+.ajax-loading-block-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 100px;
+    z-index: 9999999999999;
+    display: block;
+    background-color: rgba(0,0,0,.5);
+    border-radius: 5px;
+    box-shadow: 0 0 3px;
+}
+
+    .ajax-loading-block-window .loading-image {
+        background-image: url(/Themes/Qoqnoos_New/Content/images/ajax_loader_large.gif);
+        background-repeat: no-repeat;
+        height: 100px;
+        z-index: 9999999999999;
+        display: block;
+        background-position-y: center;
+        background-size: 40px;
+        margin: 0 0 0 20px;
+    }
+
+        .ajax-loading-block-window .loading-image span {
+            display: block;
+            height: 100%;
+            vertical-align: middle;
+            color: white;
+            position: absolute;
+            top: 38%;
+            right: 13%;
+        }
+/* RATE */
+.nav-tabs {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 30px 0 0 0;
+}
+
+    .nav-tabs > li > a:focus, .nav-tabs > li > a:hover {
+        color: black !important;
+    }
+
+    .nav-tabs > li {
+        background: #ccc !important;
+    }
+
+        .nav-tabs > li.active {
+            background: #fff !important;
+            border-top: 1px solid #ccc;
+        }
+
+        .nav-tabs > li > a {
+            color: black !important;
+            font-size: 2em;
+            padding: 10px 31px;
+            border-top: 1px solid transparent;
+        }
+/* NEWSCOLLAGUE */
+.news-colleague-wrapper .card a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+}
+/* SHOPPINGCART PAGE */
+.deleted-good-cart {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 1px 2px #ccc;
+}
+
+    .deleted-good-cart .title {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        margin: 0 0 10px 0;
+        color: red;
+    }
+
+    .deleted-good-cart .item span {
+    }
+
+.accordion-shoppingcart h1 {
+    height: auto !important;
+}
+
+.accordion-shoppingcart table {
+    background-color: #fff;
+}
+
+    .accordion-shoppingcart table thead {
+        background-color: #f5f5f5;
+    }
+/* SEARCHBOX */
+.search-box-container {
+    position: relative;
+}
+
+ul.searchbox-propertyValues {
+    color: #000;
+    list-style: none;
+    background-color: #fff;
+    padding: 0;
+    display: none;
+    position: absolute;
+    top: 56px;
+    right: 0;
+    width: 100%;
+    z-index: 99999999999;
+    box-shadow: 0 2px 2px #ccc;
+    border-radius: 5px;
+}
+
+    ul.searchbox-propertyValues li {
+        padding: 7px 15px;
+        cursor: pointer;
+    }
+
+        ul.searchbox-propertyValues li:hover {
+            background-color: #f5f5f5;
+        }
+
+        ul.searchbox-propertyValues li span {
+        }
+/* SOCIAL MEDIA */
+.social-buttons img {
+    width: 100%;
+}
+
+.social-buttons a {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+/* DAILYOFFER */
+.daily-offer {
+    position: relative;
+}
+
+    .daily-offer .back-img {
+        width: 100%;
+    }
+
+    .daily-offer .book-img {
+        position: absolute;
+        width: 45%;
+        left: 29%;
+        top: 20%;
+    }
+/* LOGO */
+.logo-wrapper {
+    color: red;
+    margin-top: -30px;
+}
+
+    .logo-wrapper img {
+        display: block;
+    }
+
+    .logo-wrapper h1 {
+        float: right;
+        font-size: 2.5em;
+        display: block;
+        margin: 8px 12px 20px 0;
+        font-family: IranNastaliq !important;
+    }
+
+    .logo-wrapper h2 {
+        float: right;
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .logo-wrapper span {
+        display: block;
+    }
+/* MULTIIMAGE */
+.multi-image {
+    padding:0 !important;
+}
+.multi-image ul {
+    padding: 0 !important;
+}
+    .multi-image ul li {
+        float: right;
+        width: 30%;
+        margin: 7px 0 7px 5px;
+        list-style: none;
+    }
+
+    .multi-image ul li img {
+        width: 100%;
+    }
+
+.enamad-container img {
+    background-color: #fff;
+}
+/* footer */
+.links-vertical .phone, .links-vertical .fax {
+    font-family: IranSansNum;
+}
+/* GOODDETAILS */
+.book-detail .detail-container .description {
+    font-family: IranSansNum;
+}
+/* REPLICATION */
+.replication-datetime {
+    text-align: left;
+    font-family: IRANSansNum;
+    font-size: .8em;
+    margin: 3px 0 0 0;
+}
+
+    .replication-datetime h4 {
+        display: inline-block;
+    }
+
+    .replication-datetime h5 {
+        display: inline-block;
+    }
+/* DAILYOFFER */
+.daily-offer-wrapper .card.card-product .footer {
+    position: initial !important;
+}
+
+/* SEARCH LOCATION */
+.card-form-location {
+    border: 2px solid #e21d2e;
+    border-radius: 5px;
+    position: relative;
+}
+
+
+    .card-form-location .xdsoft_autocomplete {
+        width: 100% !important;
+    }
+
+    .card-form-location .common-btn {
+        position: absolute;
+        left: 0;
+        padding: 5px 10px;
+        top: 0;
+        z-index: 999;
+        background-color: #e21d2e;
+        color: #fff;
+    }
+
+    .card-form-location .textbox-control {
+        width: 100% !important;
+        padding: 5px;
+        border:none;
+    }
+/* CARD */
+.card .card-content{
+    padding:15px !important;
+}
+.card .card-image img{
+    max-height:210px !important;
+}
+/* news page */
+.news-page .news-items .card .card-description {
+    font-size: 0.8em;
+    color: grey;
+    line-height: 1.8em;
+}
+.news-page .news-items .card .card-image {
+    margin-top:0 !important;
+}

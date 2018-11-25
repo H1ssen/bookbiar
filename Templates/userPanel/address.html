@@ -1,0 +1,216 @@
+{%extends 'userPanel/Base.html' %}
+{%block nameBlock%}
+ادرس ها
+{%endblock%}
+{%block userPanelBlock%}
+{%load staticfiles%}
+<script>
+
+
+    function sendData(){
+        showModal(addNewContentLoad)
+        data = {'id':$('#id').val(),'address':$('#address').val(),'number':$('#number').val(),'postCode':$('#postCode').val(),'city':$('#city').val(),'country':$('#country').val()}
+        $.post('/UserPanel/Address/',data,function(data,res){
+            if(data.redirect != undefined){
+                window.location = data.redirect
+            }
+            else{
+                showModal(addNewContentSuccess,'ادرس شما با موفقیت ثبت شد')
+            }
+        })
+    }
+
+    function editAddr(){
+        $("#id").attr('value','-1')
+        $("#number").val('')
+        $("#postCode").val('')
+        $("#address").val('')
+        CcTrigger('تهران')
+        showCollapse()
+    }
+    function CcTrigger(dt){
+            var firstDataPlace = $("#country").find(":selected")
+                var secondDataPlace = $("#"+dt)
+                var firstData = firstDataPlace.text()
+                var secondData = dt
+
+                secondDataPlace.text(firstData)
+                secondDataPlace.attr('value',firstData)
+
+                console.log(firstDataPlace)
+                firstDataPlace.text(secondData)
+                firstDataPlace.attr('value',secondData)
+            $('#city').addClass("temp");
+                loadCity(dt);
+                $.each( selectValues , function (key, value) {
+                    $(".temp")
+                    .append($("<option></option>")
+                    .attr("value", key)
+                    .text(value));
+                });
+                $(".temp").removeClass("temp");
+        }
+    function changeVal(self){
+        $("#id").attr('value',self.getAttribute("addrId"))
+    }
+
+    function showCollapse(){$("#form").collapse('show')}
+
+    function getData(self){
+        url = "/UserPanel/GetAddr/?id=" + self.getAttribute("addrId")
+        $.get(url, function(data, status){
+            if (data.addr != 'err'){
+                CcTrigger(data.country)
+                $("#number").val(data.phone)
+                $("#postCode").val(data.postcode)
+                $("#address").val(data.addr)
+                showCollapse()
+            }
+            else{
+
+            }
+        });
+    }
+
+    function addNewContentAcc(id){
+        $("#modalImage").append("<img src='{%static '/alert.png' %}' width='100px' height='100px' >")
+        $("#modalContent").append("<p>از حذف ادرس اطمینان دارید؟</p>")
+        $("#modalFooter").append("<button onclick='deleteItem("+ id +")' class='btn mybtn btn-danger btn-block' data-dismiss='modal'>بله</button><button class='btn mybtn btn-block' data-dismiss='modal' >خیر</button> ")
+    }
+
+    function deleteItem(id){
+        url = "/UserPanel/removeAddr/?id=" + id
+        showModal(addNewContentLoad)
+        $.get(url, function(data, status){
+            if (data.stat != 'err'){
+                showModal(addNewContentSuccess,'ادرس شما با موفقیت حذف شد')
+            }
+            else{
+                window.location = window.location.href
+            }
+        });
+    }
+
+    function showPop(self){
+    if ($(self).attr('id') == 'number'){
+        $(self).popover({content:'شماره باید اعداد باشد'})
+        $(self).popover('toggle')
+        }
+    else if ($(self).attr('id') == 'postCode'){
+        $(self).popover({content:'کد پستی باید اعداد باشد'})
+        $(self).popover('toggle')
+    }
+    else if ($(self).attr('id') == 'address'){
+        $(self).popover({content:'ادرس باید فارسی باشد'})
+        $(self).popover('toggle')
+    }
+}
+
+function hidePop(self){
+    $(self).popover('hide')
+}
+</script>
+ {%if messages %}
+        <div class="alert alert-danger alert-dismissble d-flex flex-row justify-content-between mr-5 ml-5" >
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {%for message in messages %}
+                <p >{{ message }}</p>
+            {%endfor%}
+        </div>
+        {%endif%}
+    <div class="row mr-3 ml-2">
+        <div class="card col-md-6 p-0  mr-0 mt-2 text-right">
+            <div class="card-body p-0 pb-0">
+                <div id="edit">
+    <div class="card shadow">
+      <div class="card-body d-flex flex-row justify-content-center align-content-center">
+        <a class="btn mybtn"  onclick="editAddr()"  style="color:white">
+            <span id="name">اضافه کردن ادرس  +‌</span>
+        </a>
+      </div>
+      <div id="form" class="collapse hide" data-parent="#edit">
+        <div class="card-body">
+            <form action="/UserPanel/AddressManager/" method="POST" >
+                <input  id="id" type="hidden" value="-1" name="id">
+                <div class="form-group p-0">
+                    <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="number">شماره ثابت</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input  class="grey panelInput w-100 d-block mb-0 bg-light" id="number" onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkNumber(event,this)' data-toggle='popover' data-placement='top' type="text" value="{{telephone}}" name="number">
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="country">استان</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select size="1" class="grey panelInput w-100 d-block mb-0 bg-light" id="country"  name="country"></select>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="city">شهر</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select size="1" class="grey panelInput w-100 d-block mb-0 bg-light" id="city"  name="city"><option>{{city}}</option></select>
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="postCode">کد پستی</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input  class="grey panelInput w-100 d-block mb-0 bg-light" id="postCode" type="text" value="{{postCode}}" onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkNumber(event,this)' data-toggle='popover' data-placement='top' name="postCode">
+                    </div>
+                </div>
+                <div  class="row pb-2 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-3">
+                        <label class="grey" for="address">ادرس کامل</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="grey panelInput w-100 d-block mb-0 bg-light" id="address" type="text" value="{{address}}" onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkPersian(event,this)' data-toggle='popover' data-placement='top' name="address">
+                    </div>
+                </div>
+                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                    <div class="col-md-12  mb-0 mt-2">
+                        <button type="button" onclick="sendData()" class="btn btn-block mybtn">ثبت</button>
+                    </div>
+                </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="col-md-6 p-0 m-0 mt-2 text-right">
+            {% for address in allAddress %}
+            <div class="card ml-2 mb-2">
+                    <div class="card-body" style="font-size:13px">
+                        <div class="info">
+                            <p>{{address.returnFullAddress}}</p>
+                            <p>کدپستی : {{address.postCode}}</p>
+                            <p>تلفن ثابت : {{address.telephone}}</p>
+                        </div>
+                        <div class="buttons row">
+                            <div class="col-md-6">
+                                <button addrId={{address.id}} onclick="showModal(addNewContentAcc,this.getAttribute('addrId'))" class="btn mybtn mt-2 btn-block" style="background-color:#fc4445">حذف</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button addrId={{address.id}} onclick="changeVal(this);getData(this)" class="btn mybtn mt-2 btn-block">تغییر</button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+        {%endfor%}
+        </div>
+
+
+    </div>
+
+
+{%endblock%}

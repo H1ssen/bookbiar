@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+{% extends 'Base/Base.html' %}
+{%block mainBlock %}
+{%load staticfiles%}
+
+<html>
+<style>
+.shadowH:hover{		box-shadow: 5px 5px 20px #888888; !important}
+  .breadcrumb-item a{
+        color:black;
+        }
+  .breadcrumb-item a:hover{
+        color:#41b3a3;
+        text-decoration:none;
+        }
+  .grey{
+        color:#777777;
+        }
+  .quanity{
+        border:1px solid lightgrey;
+        border-radius:5px;
+        width:50%;
+  }
+  input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+}
+</style>
+<body>
+    <div class="ml-1 mr-1 mt-2 mb-2 p-2  row shadow d-flex flex-row justify-content-center bg-light">
+         <ul class="breadcrumb bg-light m-0 p-0" style="font-size:13px">
+             <li class="breadcrumb-item disabled "><span  class="grey" href="#">{{book.name}}</span> </li>
+             <li class="breadcrumb-item"><a href="{%url 'books:index' typeId=book.thirdCat.catStatus indexId=book.thirdCat.id name=book.thirdCat.categoriName %}">{{book.thirdCat}}</a></li>
+            <li class="breadcrumb-item"><a href="{%url 'books:index' typeId=book.secondCat.catStatus indexId=book.secondCat.id name=book.secondCat.categoriName %}">{{book.secondCat}}</a></li>
+            <li class="breadcrumb-item"><a href="{%url 'books:index' typeId=book.mainCat.catStatus indexId=book.mainCat.id name=book.mainCat.categoriName %}">{{book.mainCat}}</a></li>
+            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+        </ul>
+    </div>
+    <div class="card shadow mt-1 m-3">
+        <div class="card-content">
+        <div class="row">
+            <div class="col-md-4 ">
+                <div class="card ml-4 mr-4 mt-5 mb-4 text-right shadow"  >
+				<!--card inside -->
+				<div class="card-image-top cardImg pt-3 d-flex flex-row justify-content-center" style="height:250px;">
+					<div class="" style="position:absolute;top:-7%;
+ left: 50%;
+   -webkit-transform: translate(-50%, -1%);
+  -moz-transform: translate(-50%, -1%);    /* Older Gecko browser */
+  -ms-transform: translate(-50%, -1%);     /* IE9+ */
+  -o-transform: translate(-50%, -1%);
+ transform: translate(-50%, -1%);">
+						<a class="shadow shadowH " href="{%url 'books:detail' pId=book.id name=book.name %}">
+							<img class="img-responsive shadowH" src="{%static book.image.url %}" style="border-radius:3px;max-width:220px;max-height:320px;">
+						</a>
+					</div>
+				</div>
+				    <div class="cardContent d-flex flex-row justify-content-center" style="padding-bottom:10%;padding-top:20%;font-size:12px;">
+					    <button type="button" style="margin:10px" class="btn btn-success"> پسندیدم <span class="fa fa-thumbs-up"></span></button>
+                        <button type="button" style="margin:10px" class="btn btn-danger"> نپسندیدم <span class="fa fa-thumbs-down"></span></button>
+				    </div>
+				    <div class="cardBuy " style="padding:0% 10% 10% 10%;">
+                        <div class="row">
+                        <div class="col-md-6 mb-3 d-flex flex-row align-content-center justify-content-center" >
+                            {%if book.available%}
+                            <div>
+						        <a onclick="addItem(this)" id={{book.id}} style="color:white" class="mybtn btn  btn-block buyButton" style="margin:">افزودن به سبد خرید  <i class="fa fa-cart-plus" style="font-size:16px"></i> </a>
+				            </div>
+                            {%else%}
+                            <div>
+						        <a onclick="" id={{book.id}} style="color:white" class="mybtn bg-dark btn  btn-block buyButton" style="margin:">اطلاع از موجودی<i class="fa fa-cart-plus" style="font-size:16px"></i> </a>
+				            </div>
+                            {%endif%}
+                        </div>
+                        <div class="col-md-6 mb-3 d-flex flex-row align-content-center justify-content-center" >
+                            <div class="quantity"><input class="text-left" style="border:1px solid lightgrey;border-radius:0px" type="number" min="1" max="9" step="1" value="1"></div>
+                        </div>
+                    </div>
+			    </div>
+            </div>
+            </div>
+            <div class="col-md-8 mt-1" >
+                <div class="text-container pt-4 pb-4 pr-4 text-right">
+
+                    <h3 class="pb-3">{{book.name}}</h3>
+                    <h6 class="pb-3"><a style="color:#41b3a3;" href="#">{{book.publisher.name}}</a></h6>
+                    {% if book.calculatePrice.stat %}
+                        <p class="oldPrice" style="text-decoration:line-through;color:grey;font-size:13px;">قیمت قبل از تخفیف: <span>{{book.price}}</span> ریال</p>
+                        <p class="newPrice" style="color:#41b3a3;font-size:16px;"><span style="color:black">قیمت برای شما: </span>{{book.calculatePrice.price}} ریال</p>
+                    {% else %}
+                        <p class="newPrice" style="color:#41b3a3;font-size:16px;"><span style="color:black">قیمت : </span>{{book.price}} ریال</p>
+                    {%endif%}
+                    <h6 class="pb-2 pt-2">:توضیحات</h6>
+                    <hr width="70%">
+                    <p class="ml-4 mr-4">انتشارات دیلماج منتشر کرد: بیماری ام اس نوعی بیماری خود ایمنی حاصل از دمیلینیزه شدن نرون های عصبی است که توانایی های فیزیکی یا عملکردی ذهن و یا هر دو را تحت تاثیر قرار می دهد. این بیماران دوره هایی از حملات و بهبود، از دست دادن و دوباره بدست آوردن و ترکیبی از هیجانات مختلف نومیدی، هراس، نگرانی و غیره را تجربه می کنند. این کتاب تلاشی است هر چند اندک در جهت تشریح و تبیین وجوه شناخته و ناشناخته ی بیماری با تاکید بر روش درمان شناختی شامل فنون ذهن آگاهی- مهارت های آرمیدگی- شناسایی و چالش با افکار منفی- فنون کنترل و توقف فکر-مقابله با افسردگی، مهارت حل مسئله و سایر راه های موثر برای کاستن از آلام بیماران مبتلا به ام اس. فروشگاه اینترنتی 30بوک.</p>
+                </div>
+
+                <div id="tags">
+                <div class="card shadow mb-4 m-4" style="background-color:#ffffff;">
+                    <div class="card-header text-right" style="background-color:#41b3a3;">
+                        <a class="card-link" data-toggle="collapse" style="color:white;font:14px" href="#tagNames">
+                            <span>تگ های کتاب</span>
+                        </a>
+                    </div>
+                    <div id="tagNames" class="collapse show" data-parent="#tags">
+                        <div class="card-body text-right">
+                            <div class="row d-flex flex-row justify-content-end" >
+                                {%for tag in book.tags.all%}
+                                <div class="col-md-3">
+                                    <a href="{%url 'books:index' typeId=4 indexId=tag.id name=tag.name%}" class="shadowH text-center bg-info p-2 m-1 d-block" style=";color:white;border-radius:5px;">{{tag}}#</a>
+                                </div>
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="pt-4 pb-4 pr-4 text-right">
+                    <span class="p-3 " style="background-color:#fc4445;border-radius:5px;color:white;font-size:14px">این کتاب {{book.likes}} لایک شده  <span style="font-size:18px" class="fa fa-thumbs-up"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card-footer mt-2 mb-3" style="background-color:#ffffff;">
+            <div id="data">
+                <div class="card shadow mb-4" style="background-color:#ffffff;">
+                    <div class="card-header text-right" style="background-color:#41b3a3;">
+                        <a class="card-link" data-toggle="collapse" style="color:white;font:14px" href="#info">
+                            <span>مشخصات کتاب</span>
+                        </a>
+                    </div>
+                    <div id="info" class="collapse show" data-parent="#data">
+                        <div class="card-body ">
+                            <table class="table table-striped text-right" style="font-size:12px;">
+                                <tr>
+                                    <td>{{book.mainCat}}</td>
+                                    <td>دسته بندی اصلی</td>
+                                </tr>
+                                <tr>
+
+                                    <td>{{book.secondCat}}</td>
+                                    <td>دسته بندی فرعی اول</td>
+                                </tr>
+                                <tr>
+
+                                    <td>{{book.thirdCat}}</td>
+                                    <td>دسته بندی فرعی دوم</td>
+                                </tr>
+                                 <tr>
+                                    <td>{{book.writer}}</td>
+                                    <td>نویسنده</td>
+                                </tr>
+                                <tr>
+                                    <td>{{book.translator}}</td>
+                                    <td>مترحم</td>
+                                </tr>
+                                <tr>
+                                    <td>{{book.publisher.name}}</td>
+                                    <td>ناشر</td>
+                                </tr>
+                                <tr>
+                                    <td>{{book.publishYear}}</td>
+                                    <td>نوبت چاپ</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow" style="background-color:#ffffff;">
+                    <div class="card-header text-right" style="background-color:#41b3a3;">
+                        <a class="card-link" data-toggle="collapse" style="color:white;" href="#detail">
+                            <span>جزییات کتاب</span>
+                        </a>
+                    </div>
+                    <div id="detail" class="collapse show" data-parent="#data">
+                        <div class="card-body">
+                            <table class="table table-striped text-right" style="font-size:12px;">
+                                <tr>
+                                    <td>فارسی</td>
+                                    <td>زبان کتاب</td>
+                                </tr>
+                                <tr>
+                                    <td>رقعی</td>
+                                    <td>قطع کتاب</td>
+                                </tr>
+                                <tr>
+                                    <td>شومیز</td>
+                                    <td>جلد کتاب</td>
+                                </tr>
+                                <tr>
+                                    <td>{{book.weight}}</td>
+                                    <td>وزن کتاب</td>
+                                </tr>
+                                <tr>
+                                    <td>{{book.pages}}</td>
+                                    <td>تعداد صفحات</td>
+                                </tr>
+                                <tr>
+                                    <td>{{book.printNumber}}</td>
+                                    <td>نوبت چاپ</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{%endblock%}

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+{% extends 'Base/Base.html' %}
+{%block mainBlock%}
+{%load staticfiles%}
+<div class="modal fade hide" id="profileImgModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header d-flex flex-row justify-content-between" style="border:none">
+                <div>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div>
+                    <h6 class="modal-title ">تغییر نمایه کاربری</h6>
+                </div>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form action="/User/setProfilePic/" id="profileImgForm" enctype="multipart/form-data" method="POST">
+                <label for="profilePic">انتخاب عکس</label>
+                <input id="profilePic" name="profilePic" type="file">
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button form="profileImgForm" type="submit" class="btn mybtn btn-block">تایید</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<div class="row d-flex flex-row-reverse ">
+    <div class="col-md-3">
+        <div class="card m-4 shadow " style="border:1px solid lightgrey;border-radius:0px">
+            <div  class="card-header p-0 d-flex flex-column align-content-center justify-content-center">
+                <div style="background-color:#fc4445" class="d-flex m-0 p-2 flex-row justify-content-center">
+                    <a  href="javascript:void(0)"  data-toggle="modal" data-target="#profileImgModal" id="profileImg">
+                        <img style="width:60px;height:60px" class="rounded-circle" src="{%static profileImgUrl.url %}">
+                    </a>
+                </div>
+                <div class="d-flex mb-1 mt-2 flex-row justify-content-center">
+                    <h5>{{name}} {{lastName}}</h5>
+                </div>
+
+            </div>
+            <div class="card-body text-right">
+                <a class="btn btn-block mybtn" href="{%url 'userPanel:info'%}" style="color:white">اطلاعات شخصی</a>
+                <a class="btn btn-block mybtn" href="{%url 'userPanel:address'%}" style="color:white">ادرس ها </a>
+                 <a class="btn btn-block mybtn" href="#" style="color:white">تنظیمات</a>
+                 <a class="btn btn-block mybtn" href="#" style="color:white">لیست سفارش ها</a>
+                <a class="btn btn-block mybtn" href="#" style="color:white">لیست علاقه مندی ها</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card shadow m-4" style="border:1px solid lightgrey;border-radius:0px">
+            <div class="card-header text-right" style="border-radius:0;color:white;background-color:#fc4445">
+                <span> {%block nameBlock%}{%endblock%}</span>
+            </div>
+            <div class="card-content text-right pt-4 pb-4">
+                {% block userPanelBlock%}
+                {%endblock%}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}

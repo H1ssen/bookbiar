@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+  <title>Bootstrap Card</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{%static 'cssFiles/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{%static 'cssFiles/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'cssFiles/bootstrap.min.css'%}">
+  <script src="{%static 'jsFiles/jquery.min.js'%}"></script>
+  <script src="{% static 'jsFiles/popper.min.js'%}"></script>
+  <script src="{% static 'jsFiles/bootstrap.min.js'%}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+	<!--<link href="https://fonts.googleapis.com/css?family=Markazi+Text" rel="stylesheet">-->
+  	<script src="{%static 'jsFiles/owl.carousel.js' %}"></script>
+	<script src="{%static 'jsFiles/owl.carousel.min.js' %}"></script>
+	    <script src="{%static 'jsFiles/ccity.js' %}"></script>
+
+</head>
+<style>
+@font-face {
+    font-family: yekan;
+    src: url({%static 'Yekan-full.ttf' %});
+}
+
+	.quantity {
+  position: relative;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number]
+{
+  -moz-appearance: textfield;
+}
+
+.quantity input {
+  width: 60px;
+  height: 39px;
+  line-height: 1.65;
+  float: left;
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-left: 20px;
+  border: 1px solid #eee;
+}
+
+.quantity input:focus {
+  outline: 0;
+}
+
+.quantity-nav {
+  float: left;
+  position: relative;
+  height: 42px;
+}
+
+.quantity-button {
+  position: relative;
+  cursor: pointer;
+  border-left: 1px solid #eee;
+  width: 15px;
+  text-align: center;
+  color: #333;
+  font-size: 13px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+  line-height: 1.7;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.quantity-button.quantity-up {
+  position: absolute;
+  height: 50%;
+  top: 0%;
+  border-bottom: 1px solid #eee;
+}
+
+.quantity-button.quantity-down {
+  position: absolute;
+  bottom: 7%;
+  height: 44%;
+}
+	.shadowH:hover{		box-shadow: 3px 3px 24px #666666; !important}
+	.shadow{
+		box-shadow: 2px 2px 16px #666666; !important
+	}
+	.test{
+		background-color:blue;
+		color:white;
+
+	}
+	body{
+		background-color:rgb(217, 217, 217);
+		font-family:yekan;
+
+		}
+	.topNav-item{
+		color:white;
+		font-size:13px;
+		text-align:center;
+		padding:5px 0px 5px 0px;
+		}
+	.topNav-item:hover{
+		text-decoration:none;
+		color:rgb(179, 179, 179);
+		}
+	.right{
+		padding-left:10px;
+		}
+	.left{
+		padding-right:10px;
+		}
+	.topNav{
+
+		}
+	.main{
+		background-color:rgb(242, 242, 242);
+		}
+	.searchHolder{
+		border-radius:10px;
+		}
+	.textInput{
+		height:30%;
+		border:none;
+		border-bottom:1px solid lightgrey;
+		}
+	.mybtn{
+		background-color:#ffffff;
+		font-size:13px;
+		color:white;
+		border:none;
+	}
+	.mybtn:hover{
+		box-shadow: 3px 3px 12px #888888; !important
+		background-color:#ffffff; !important
+		color:white;
+	}
+	input{
+		text-align:right;
+		border-bottom : 1px solid lightgrey;
+		-webkit-transition : border 150ms linear;
+		-moz-transition : border 150ms linear;
+		-o-transition : border 150ms linear;
+		transition : border 150ms linear;
+	}
+
+.panelInput{
+	border:1px solid lightgrey;
+	border-radius:5px;
+}
+
+.panelInput:focus{
+    border:1.5px solid #126261; !important
+}
+
+    .grey{color:#212529;font-size:14px}
+
+    .star{color:red;font-size:13px}
+
+	.mySelect{
+		text-align:right;
+		font-size:13px;
+		border : 1px solid lightgrey;
+		-webkit-transition : border 150ms linear;
+		-moz-transition : border 150ms linear;
+		-o-transition : border 150ms linear;
+		transition : border 150ms linear;
+	}
+	.mySelect:focus{
+		border:1.5px solid #126261; !important
+	}
+	input:focus{
+		text-align:right;
+		border-bottom : 1.5px solid #126261;
+
+	}
+	select{text-align:right;padding-right:6px;}
+	select:focus{
+		text-align:right;
+		border-bottom : 1.5px solid #126261;
+
+	}
+	.myMenu{
+		background-color:#126261;
+		color:white;
+		border:none;
+		}
+	.dropdown-menu-inner{
+		padding:10px;
+		border-radius:10px;
+		}
+	.navbar-link{
+		color:white;
+		font-size:13px;
+		}
+	.navbar-link:hover{
+		color:rgb(210, 210, 210);
+		text-decoration:none;
+		}
+	.myMenuItem{
+			color:white;
+			font-size:13px;
+		}
+	.myMenuItem:hover{
+			color:white;
+			background-color:#126261
+		}
+	.navCard{
+
+		}
+	.inneritem{
+		font-size:10px;
+		border-radius:10px;
+		color:white;
+	}
+	.inneritem:hover{
+		color:white;
+		background-color:#126261;
+	}
+	.method{
+		border-right:1px solid grey;
+	}
+	.owlButt{
+		background-color: #fc4445;
+		border: none;
+		color: white;
+		text-decoration: none;
+		margin: 4px 2px;
+		cursor: pointer;
+	}
+	.flink {
+		color:#41b3a3; !important
+
+.golden{
+	background-color:#c98949; !important
+}
+
+
+
+
+@media only screen and (max-width: 700px) {
+	.method{
+		border-right:none;
+		border-bottom:1px solid grey;
+		padding-top:10px;
+		padding-bottom:10px;
+	}
+	.inneritem{
+		font-size:16px;
+	}
+	.myMenuItem{
+		font-size:17px;
+	}
+	.navbar-link{
+		font-size:18px;
+	}
+}
+
+
+
+@media only screen and (min-width: 768px) {
+	.method{
+		border-right:1px solid grey;
+		border-bottom:none;
+	}
+}
+
+
+
+
+
+
+</style>
+<script>
+<!--modal main config-->
+
+    function resetModal(){
+        $("#modalImage").empty()
+        $("#modalContent").empty()
+        $("#modalFooter").empty()
+        $("#modalErr").empty()
+    }
+
+    function changeModal(addNewContent){
+        resetModal()
+        try{addNewContent()}
+        catch(err){alert(err)}
+    }
+
+    function showModal(addContent,arg){
+        resetModal()
+        try{
+        	if (arg != undefined){addContent(arg)}
+            else{addContent()}
+            $('#messageModal').modal('show')
+        }
+        catch(err){alert(err)}
+    }
+
+    function addNewContentSuccess(key){
+        $("#modalImage").append("<img src='{%static '/message.png' %}' width='100px' height='100px' >")
+        $("#modalContent").append("<p>"+key.message+"</p>")
+        $("#modalFooter").append("<button class='btn mybtn btn-block' data-dismiss='modal' >باشه</button> ")
+        if (key.wait.stat == true){
+        	setTimeout(function(){hideModal();window.location = window.location.href},key.wait.time)
+        	}
+    }
+
+    function hideModal(){
+        $('#messageModal').modal({
+    		backdrop: true,
+    		keyboard: true
+    	})
+
+		$('#messageModal').modal('hide')
+
+
+    }
+
+
+
+
+
+
+	function openSelf(element){
+		elem = element.parentElement.children[1]
+		console.log(elem)
+		elem.setAttribute('style','display:static;')
+		}
+	function closeAll(){
+		var all = document.getElementsByClassName('dropdown-menu-inner')
+		for (i = 0;i<all.length;i++){
+			all[i].setAttribute('style','display:none;')
+			}
+		}
+
+	function checkPersian(evt,self){
+    charList = [1590,1589,1579,1602,1601,1594,1593,1607,1582,1581,1580,1670,1662,1711,1705,1605,1606,1578,1575,1604,1576,1740,1587,1588,1592,1591,1586,1585,1584,1583,1574,1608,46,32,8,9,13]
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+     if (charList.indexOf(charCode) > -1){$(self).popover('hide');$(self).css('border-color','');return true}
+    else{
+        $(self).css('border-color','red')
+        $(self).popover({content:'لطفا فارسی بنویسید'})
+        $(self).popover('show')
+        return false;
+        }
+	}
+
+	function checkNumber(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+	}
+
+	function addNewContentLoad(){
+    $("#modalContent").append("<h4 '>...لطفا صبر کنید</h4>")
+       $("#modalImage").append("<img src='{%static '/load.gif' %}' width='300px' height='300px' >")
+           $('#messageModal').modal({
+    backdrop: 'static',
+    keyboard: false
+    })
+	}
+
+	function addItem(elem){
+		bookId = elem.getAttribute('id')
+		$.post('/Order/addItem/',{bookId:bookId},function(result,status){
+			if (result.stat == 'done'){
+				count = parseInt($("#count").text()) + 1
+				$("#count").text(count)
+				$('#addAlert').show()
+				setTimeout(function(){
+					$('#addAlert').hide()
+					},1000)
+				}
+			else if (result.stat == 'redirect'){
+				window.location = result.url
+			}
+
+		})
+	}
+
+
+	$(document).ready(function(){
+	    jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up bg-success">+</div><div class="quantity-button quantity-down bg-danger">-</div></div>').insertAfter('.quantity input');
+    jQuery('.quantity').each(function() {
+      var spinner = jQuery(this),
+        input = spinner.find('input[type="number"]'),
+        btnUp = spinner.find('.quantity-up'),
+        btnDown = spinner.find('.quantity-down'),
+        min = input.attr('min'),
+        max = input.attr('max');
+
+      btnUp.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue >= max) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue + 1;
+        }
+
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+      btnDown.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue <= min) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue - 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+    });
+		$('#dontShowHelp').click(function(){
+			$.post('/Home/',{help:false},function(result,status){
+                if (result.stat == 200){console.log('done')}
+            })
+		})
+		$('#country option[value="{{country}}"]').attr('selected','selected');
+
+		$('.owl-carousel').owlCarousel({
+			loop:true,
+			margin:30,
+			dots:false,
+			lazyLoad : true,
+			navigation : true,
+			items:5,
+			responsiveClass:true,
+			responsive:{
+				0:{
+					items:1,
+				},
+				400:{
+					items:2,
+					},
+				600:{
+					items:2,
+					},
+				700:{
+					items:3,
+				},
+				992:{
+					items:3,
+				},
+				1200:{
+					items:4,
+					},
+
+			}
+
+		})
+	});
+
+
+
+
+
+
+</script>
+
+<body style="background-color:#ffffff">
+<!--add to purchase list div-->
+        <div id="addAlert" style="z-index:1000;color:white;border:none;background-color:#4caf50;position:fixed;top:9px;left:9px;opacity:0.93;display:none;" class="alert text-right alert-success alert-dismissible">
+            <a  class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            	<span>به سبد خرید اضافه شد</span>
+          </div>
+<!--any message or important err div-->
+
+<!--firstTop nav-->
+<div class="topNav clearfix bg-dark" >
+	<div class="container">
+		<div class="row">
+			<div class="col-3 d-flex align-content-center">
+				<a href="#" class="topNav-item left float-left text-center text-justify"><i class="fa fa-instagram" style="font-size:23px"></i></a>
+				<a href="#" class="topNav-item left float-left"><i class="fa fa-telegram" style="font-size:23px"></i></a>
+				<a href="#" class="topNav-item left float-left"><i class="fa fa-facebook" style="font-size:23px"></i></a>
+			</div>
+		<div class="col-9">
+			<div class="clearfix">
+				{%if user.is_authenticated %}
+					{%if user.name %}
+						<a  href="#"  class="topNav-item right float-right"> به سایت اندیشه احسان خوش امدید <span>{{user.first_name}}</span> <i class="fa fa-user" style="font-size:15px"></i></a>
+					{%else%}
+						<a href="#"  class="topNav-item right float-right"> به سایت اندیشه احسان خوش امدید <span>{{user.username}}</span> <i class="fa fa-user" style="font-size:15px"></i></a>
+					{%endif%}
+					<span class="topNav-item right float-right">|</span>
+					<a href="{%url 'userPanel:userPanel' %}" class="topNav-item right float-right">پنل کاربری <i class="fa fa-sign-in" style="font-size:15px"></i></a>
+					<span class="topNav-item right float-right">|</span>
+					<a href="{%url 'user:logout'%}" class="topNav-item right float-right">خروج  <i class="fa fa-user-plus" style="font-size:15px;"></i></a>
+				{%else%}
+					<a  href="#" class="topNav-item right float-right">کاربر گرامی خوش امدید <i class="fa fa-user" style="font-size:15px"></i></a>
+					<span class="topNav-item right float-right">|</span>
+					<a href="{%url 'user:login' %}" class="topNav-item right float-right">ورود <i class="fa fa-sign-in" style="font-size:15px"></i></a>
+					<span class="topNav-item right float-right">|</span>
+					<a href="{%url 'user:register'%}" class="topNav-item right float-right">ثبت نام <i class="fa fa-user-plus" style="font-size:15px;"></i></a>
+				{%endif%}
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<div style="background-image:url({%static '32.jpg'%});background-attachment: fixed;background-size: 100% 100%;" class="container-fluid main">
+	<!-- top page -->
+	<div class="row d-flex row flex-row align-content-center mb-3">
+		<div class="col-md-9 d-flex flex-column justify-content-center align-content-center pt-2 pb-2" >
+			<div style="border-radius:70px;opacity:1" class="d-flex flex-row align-content-center searchHolder shadow bg-light w-100" >
+				<form  method="GET" action="/"  class="w-100 d-block">
+					<input style="border-radius:20px;height:40px" type="text" class="d-block w-100 pr-3 textInput bg-light" onfocus="changeOpacity(this)" placeholder="... عبارت جستجو را وارد کنید">
+				</form>
+			</div>
+		</div>
+		<div class="col-md-3 align-item-center mt-3" >
+			<div class="d-flex flex-row justify-content-center align-content-center">
+				<img src="{%static 'logo.png' %}" class="mt-3 mb-3" width="100%" height="100%">
+			</div>
+		</div>
+		<div class="col-md-3 d-flex flex-column align-content-center justify-content-center" >
+			<div class="d-flex flex-row justify-content-center" >
+
+			</div>
+		</div>
+	</div>
+
+	<div class="row" >
+		<div class="col-xs-12 w-100 " >
+			<nav style="background-color:#eb4747;border-radius:5px" class="navbar navbar-expand-md justify-content-between p-2 myMenu ">
+				<a href="{%url 'shoppingCard:viewCard' %}" style="background-color:#343a40;border-radius:40px;color:white" class="navbar-brand btn mybtn m-1 p-2 justify-item-start"><span><i class="fa fa-shopping-basket"></i>  سبد خرید  <span id="count" class="badge badge-light rounded-circle">{{count}}</span></span></a>
+				<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#p"><i style="color: #fc4445" class="fa fa-align-justify"></i></button>
+				<div class="collapse navbar-collapse justify-content-end text-right" id="p">
+				<ul class="navbar-nav">
+					{% for item in menu %}
+					{% if item.secondSubS %}
+					<li class="navbar-item pr-3 dropdown">
+						<a class="navbar-link dropdown-toggle " style="cursor:pointer" id="navbardrop" onclick="closeAll()" data-toggle="dropdown">{{item.obj.categoriName}}</a>
+						<div class="dropdown-menu myMenu text-right justify-content-end">
+							{% for sitem in item.secondSub %}
+									{% if sitem.thirdSubS %}
+									<div class="dropdown dropdown-item myMenuItem">
+										<a class="dropdown-item myMenuItem dropdown-toggle pr-0" href="{%url 'books:index' typeId=sitem.obj.catStatus indexId=sitem.obj.id name=sitem.obj.categoriName %}" onmouseover="closeAll();openSelf(this)">{{sitem.obj.categoriName}}</a>
+										<div class="dropdown-menu-inner bg-dark" style="display:none;">
+										{% for titem in sitem.thirdSub %}
+											<a class="dropdown-item  inneritem" href="{%url 'books:index' typeId=titem.catStatus indexId=titem.id name=titem.categoriName %}">{{titem.categoriName}}</a>
+										{% endfor %}
+										</div>
+									</div>
+									{% else %}
+										<a class="dropdown-item myMenuItem" href="{%url 'books:index' indexId=sitem.obj.id typeId=sitem.obj.catStatus name=sitem.obj.categoriName%}">{{sitem.obj.categoriName}}</a>
+									{% endif %}
+							{%endfor%}
+						</div>
+					</li>
+					{% else %}
+						<li class="navbar-item pr-3">
+							<a href="{%url 'books:index' indexId=item.obj.id typeId=item.obj.catStatus name=item.obj.categoriName %}" class="navbar-link">{{item.obj.categoriName}}</a>
+						</li>
+					{% endif %}
+					{% endfor %}
+					<li class="navbar-item pr-3">
+						<a href="/" class="navbar-link">خانه</a>
+					</li>
+				</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+</div>
+   {% block mainBlock %}
+
+    {% endblock %}
+
+<div  style="background-color: rgba(0, 0, 0, 0.0);" class="container main">
+
+    {% block mainBlockContainer %}
+
+    {% endblock %}
+</div>
+
+<div class="container-fluid footer bg-dark" >
+	<div class="row">
+	<div class="col-md-3 p-4 text-right" style="font-size:13px;color:white">
+		<h6 class="p-2">تماس با ما</h6>
+		<hr style="border-color:white;">
+		<span><i class="p-2 float-right fa fa-map-marker"></i></span>
+		<p class="d-inline">تهران، خیابان ملاصدرا، خیابان گلدشت، کوچه گلدشت یکم، پلاک ۱۴</p>
+		<div class="pb-2 pt-2"></div>
+		<span><i class="p-2 float-right fa fa-phone"></i></span>
+		<p class="d-inline">ت(پشتیبانی):۸۸۲۱۰۸۵۲-۰۲۱ , ۸۸۱۷۱۹۸</p>
+		<div class="pb-2 pt-2"></div>
+		<span><i class="p-2 float-right fa fa-mobile-phone"></i></span>
+		<p class="d-inline">۳۰۰۰۹۰۱۰</p>
+		<div class="pb-2 pt-2"></div>
+		<span><i class="p-2 float-right fa fa-envelope"></i></span>
+		<p class="d-inline">info@shahreketabonline.com</p>
+	</div>
+	<div class="col-md-3 p-4 text-right" style="font-size:13px;color:white">
+		<h6 class="p-2">راهنمای استفاده</h6>
+		<hr style="border-color:white;">
+		<span><i class="p-2 float-right fa fa-map-marker"></i></span>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">راهنمای خرید</a>
+		<div class="pb-2 pt-2"></div>
+		<span><i class="p-2 float-right  	fa fa-credit-card-alt"></i></span>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">قوانین</a>
+		<div class="pb-2 pt-2"></div>
+		<span><i class="p-2 float-right fa fa-exclamation-triangle"></i></span>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">نقشه سایت</a>
+	</div>
+	<div class="col-md-3 p-4 text-right" style="font-size:13px;color:white">
+		<h6 class="p-2">دسته بندی موضوعی</h6>
+		<hr style="border-color:white;">
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">عمومی</a>
+		<div class="pb-2 pt-2"></div>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">کالای فرهنگی</a>
+		<div class="pb-2 pt-2"></div>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">کودک و نوجوان</a>
+		<div class="pb-2 pt-2"></div>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">زبان</a>
+		<div class="pb-2 pt-2"></div>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">کمک تحصیلی</a>
+		<div class="pb-2 pt-2"></div>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">محبوب ترین ها</a>
+	</div>
+	<div class="col-md-3 p-4 text-right" style="font-size:13px;color:white">
+		<h6 class="p-2">حساب کاربری</h6>
+		<hr style="border-color:white;">
+		<span><i class="p-2 float-right fa fa-user-circle"></i></span>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">ورود</a>
+		<div class="pb-2 pt-2"></div>
+		<span><i class="p-2 float-right  	fa fa-user-plus"></i></span>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">ثبت نام</a>
+		<div class="pb-2 pt-2"></div>
+		<span><i class="p-2 float-right fa fa-address-card"></i></span>
+		<a class="flink" href="#" style="color:white;text-decoration:none;"class="d-inline">پنل کاربری</a>
+	</div>
+	</div>
+</div>
+
+<div class="container-fluid footer bg-dark d-flex flex-column justify-content-between justify-content-center" >
+	<div class="text-center p-4 pb-0" style="font-size:13px;color:white">
+
+		<h6 class="pt-2">درباره ما</h6>
+				<hr style="width:80%;border-color:white">
+			<p>همین چند وقت پیش (آخرهای سال 1394) بود که چند تا جوان، صمیمی، پرانرژی و لبریز از ایده، به‌عنوان یک دارودسته‌ی تبعیدیِ کرمِکتاب دور هم جمع شدیم تا به رویای معرفی و فرستادن کتاب به دوردست‌ترین کتاب‌خوارهای ایران برسیم. ما نه عینک گرد می‌زنیم، نه سبیل بلند داریم (به جز یک مورد) و نه زیاد اهل کافه رفتنیم.
+
+ما تیم بچه‌معمولی‌های 30‌بوک هستیم: ذله‌کننده‌ی سرمایه‌گذارهای دست‌به‌عصا، حامیان تمام‌عیار احمقانه‌ترین و جسورانه‌ترین ایده‌ها، و کَنه‌ی حل غیرممکن‌ترین مسئله‌ها. اگر جوانید (دل‌تان را می‌گوییم!)، یک جای خالی هم برای شما توی بوفه کنار گذاشته‌ایم. به دنیای 30بوک خوش آمدید! </p>
+    <div class="pt-5"></div>
+		<p>تمامی حقوق متعلق به اندیشه احسان</p>
+		<p><a style="color:#41b3a3;" href="http://imanheidary.com" target="_blank" >imanheidary</a> طراحی و توسعه </p>
+	</div>
+</div>
+
+
+</body>
+
+</html>

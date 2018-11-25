@@ -1,0 +1,60 @@
+{%extends 'Base/Base.html'%}
+{%block mainBlock%}
+{%load staticfiles%}
+
+<script>
+    function addContent(){
+        $("#modalImage").append("<img src='{%static '/message.png' %}' width='100px' height='100px' >")
+        $("#modalContent").append("<p>ثبت نام شما با موفقیت انجام شد</p><p>با استفاده از اطلاعات کاربری فرستاده شده وارد حساب خود شوید</p>")
+        $("#modalFooter").append("<button class='btn mybtn btn-block' data-dismiss='modal' >باشه</button> ")
+    }
+
+    $(document).ready(function(){
+        if ('{{reg}}' == 'True'){
+            showModal(addContent)
+        }
+    })
+
+
+</script>
+
+        <div class="row d-flex flex-row justify-content-center align-content-center">
+            <div class="card m-4 shadow bg-light " style="width:80%">
+                <div class="p-4 card-header text-center bg-dark" style=";color:white">
+                   <h4>ورد کاریر</h4>
+                </div>
+                <div class="card-body">
+                    <form class="pt-3 pb-3 text-right" action="/User/Login/" method="post">
+                    {%if messages %}
+                        <div class="row alert alert-danger alert-dismissble d-flex flex-row justify-content-between mr-1 ml-1" >
+                            <div class="col-md-2 d-flex mb-3 flex-row justify-content-center">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                </div>
+                            <div class="col-md-10">
+                            {%for message in messages %}
+                                <span  class="d-block mb-3">{{ message }}</span>
+                            {%endfor%}
+                            </div>
+                        </div>
+                    {%endif%}
+                    <div class="form-group text-right">
+                        <label style="color:grey" class="mb-3 mt-4 small" for="username">اگر اولین بار است که وارد میشوید نام کاربری شما شماره همراه شما میباشد</label>
+                        <input type="text"  class="d-block w-100 mb-0 textInput bg-light" id='username' placeholder="نام کاربری" class="form-control" name='username'>
+                    </div>
+                    <div class="form-group mb-5 mt-5  text-right">
+                        <input type="password" class="d-block w-100 textInput bg-light" id="pass" placeholder="رمز عبور" class="form-control" name='pass'>
+                    </div>
+                    <div class="form-group text-right">
+                        <input type="text" class="d-block w-100  textInput bg-light" id="captcha" placeholder="کد امنیتی تصویر" class="form-control" name='captcha'>
+                    </div>
+                    <div class="d-flex flex-row justify-content-center mt-3 mb-4">
+                        <img id="img" src="/User/getCaptcha">
+                    </div>
+                    <div class="d-flex flex-row justify-content-center aling-content-center">
+                        <button type="submit" id="send" class="btn mybtn  mb-2" style="background-color:#fc4445;height:50px;width:50%;border-radius:50px;" >ثبت نام</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    {%endblock%}

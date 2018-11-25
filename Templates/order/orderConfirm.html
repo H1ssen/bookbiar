@@ -1,0 +1,204 @@
+{%extends 'Base/Base.html'%}
+{%block mainBlock%}
+{%load staticfiles%}
+<style>
+    .postCard:hover{
+        background-color:#e9ecef;
+    }
+</style>
+<script>
+    function sendData(){
+        showModal(addNewContentLoad)
+        data = {'id':$('#id').val(),'address':$('#adr').val(),'number':$('#number').val(),'postCode':$('#postCode').val(),'city':$('#city').val(),'country':$('#country').val()}
+        $.post('/UserPanel/Address/',data,function(data,res){
+            if(data.redirect != undefined){
+                window.location = window.location.href
+            }
+            else{
+                showModal(addNewContentSuccess,'ادرس شما با موفقیت ثبت شد')
+            }
+        })
+    }
+
+function editAddr(){
+        $("#id").attr('value','-1')
+        $("#number").val('')
+        $("#postCode").val('')
+        $("#adr").val('')
+        CcTrigger('تهران')
+        toggleCollapse()
+    }
+    function CcTrigger(dt){
+            var firstDataPlace = $("#country").find(":selected")
+                var secondDataPlace = $("#"+dt)
+                var firstData = firstDataPlace.text()
+                var secondData = dt
+
+                secondDataPlace.text(firstData)
+                secondDataPlace.attr('value',firstData)
+
+                console.log(firstDataPlace)
+                firstDataPlace.text(secondData)
+                firstDataPlace.attr('value',secondData)
+            $('#city').addClass("temp");
+                loadCity(dt);
+                $.each( selectValues , function (key, value) {
+                    $(".temp")
+                    .append($("<option></option>")
+                    .attr("value", key)
+                    .text(value));
+                });
+                $(".temp").removeClass("temp");
+        }
+    function changeVal(self){
+        $("#id").attr('value',self.getAttribute("addrId"))
+    }
+    function getData(self){
+        url = "/UserPanel/GetAddr/?id=" + self.getAttribute("addrId")
+        $.get(url, function(data, status){
+            if (data.addr != 'err'){
+                CcTrigger(data.country)
+                $("#number").val(data.phone)
+                $("#postCode").val(data.postcode)
+                $("#adr").val(data.addr)
+                showCollapse()
+            }
+            else{
+
+            }
+        });
+    }
+    function showCollapse(){$("#addAddr").collapse('show')}
+
+    function toggleCollapse(){$("#addAddr").collapse('toggle')}
+
+    function selectAddr(addrId){
+        $('#stat').text(':) انتخاب شده ')
+        $('#stat').css('color','green')
+        allAddrs = $(".addrCard[selected='selected']")
+        if (allAddrs.length >= 1){
+            allAddrs.each(function(){
+                $(this).removeAttr('selected')
+                $(this).css('border-bottom','0.7px solid grey')
+            })
+        }
+        $('#'+addrId).attr('selected','selected')
+        $('#'+addrId).css('border-bottom','1.4px solid #126261')
+
+    }
+
+    function selectPost(Id){
+        allPost = $(".postCard[selected='selected']")
+        if (allPost.length >= 1){
+            allPost.each(function(){
+                $(this).removeAttr('selected')
+                $(this).css('border','0.7px solid grey')
+            })
+        }
+        $('#'+Id).attr('selected','selected')
+        $('#'+Id).css('border','1.4px solid #126261')
+
+    }
+    function addNewContentAcc(id){
+        $("#modalImage").append("<img src='{%static '/alert.png' %}' width='100px' height='100px' >")
+        $("#modalContent").append("<p>از حذف ادرس اطمینان دارید؟</p>")
+        $("#modalFooter").append("<button onclick='deleteItem("+ id +")' class='btn mybtn btn-danger btn-block' data-dismiss='modal'>بله</button><button class='btn mybtn btn-block' data-dismiss='modal' >خیر</button> ")
+    }
+
+    function deleteItem(id){
+        url = "/UserPanel/removeAddr/?id=" + id
+        showModal(addNewContentLoad)
+        $.get(url, function(data, status){
+            if (data.stat != 'err'){
+                showModal(addNewContentSuccess,'ادرس شما با موفقیت حذف شد')
+            }
+            else{
+                window.location = window.location.href
+            }
+        });
+    }
+
+    function showPop(self){
+    if ($(self).attr('id') == 'number'){
+        $(self).popover({content:'شماره باید اعداد باشد'})
+        $(self).popover('toggle')
+        }
+    else if ($(self).attr('id') == 'postCode'){
+        $(self).popover({content:'کد پستی باید اعداد باشد'})
+        $(self).popover('toggle')
+    }
+    else if ($(self).attr('id') == 'address'){
+        $(self).popover({content:'ادرس باید فارسی باشد'})
+        $(self).popover('toggle')
+    }
+}
+
+function hidePop(self){
+    $(self).popover('hide')
+}
+</script>
+<div class="mt-2 mb-2">
+{%if messages %}
+        <div class="alert alert-danger alert-dismissble d-flex flex-row justify-content-between mr-5 ml-5" >
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {%for message in messages %}
+                <p >{{ message }}</p>
+            {%endfor%}
+        </div>
+        {%endif%}
+</div>
+<div class="card m-4">
+    <div class="card-header text-right">
+        <span>فاکتور نهایی</span>
+    </div>
+    <div class="card-body text-right">
+        <div class="table-responsive">
+        <table class="table text-center table-bordered" style="border:none">
+            <thead>
+            <tr>
+                <th>قیمت کل</th>
+                <th>تعداد</th>
+                <th>تخفیف</th>
+                <th>قیمت</th>
+                <th>نام کالا</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for item in allCard%}
+            <tr>
+                <td>{{item.getRealItemPrice}}</td>
+                <td>{{item.quanity}}</td>
+                <td>{{item.getItemDiscount}}</td>
+                <td>{{item.book.price}}</td>
+                <td>{{item.book.name}}</td>
+            </tr>
+            {%endfor%}
+            </tbody>
+            <tr>
+                <td colspan="4">{{card.getCardRealPrice}}</td>
+                <td >قیمت</td>
+            </tr>
+            <tr>
+                <td colspan="4">{{card.getCardDiscount}}</td>
+                <td>مجموع تخفیف</td>
+
+            </tr>
+            <tr>
+                <td colspan="4">{{postPrice}}</td>
+                <td>هزینه پست</td>
+            </tr>
+            <tr style="background-color:#126261;color:white">
+                <td colspan="4">{{card.getCardPriceWithDiscount}}</td>
+                <td>قیمت نهایی</td>
+            </tr>
+        </table>
+        </div>
+        <div class="d-flex flex-row justify-content-center">
+            <form action="/pay/Buy/" method="post">
+                <input value="{{card.cardId}}" name="cardId" type="hidden">
+                <button class="m-4 btn  btn-success" type="submit" style="width:100px;height:40px">پرداخت</button>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+{%extends 'Base/Base.html'%}
+{%load staticfiles%}
+{%block mainBlock%}
+
+<script>
+$(document).ready(function(){
+    $("#phonenumber").blur(function(){
+        value = $(this).val()
+        if (value.length > 0){
+            data = {phoneNumber:value}
+            $.post('/User/check/',data,function(result,status){
+                if (result.stat == 'phoneError'){
+                    $("#phoneError").text('شماره وارد شده صحیح نیست')
+                    $("#phonenumber").css('border-bottom-color','red')
+                    $("#send").attr('disabled','disabled')
+                    }
+                else if (result.stat == 'phoneExistError'){
+                    $("#phoneError").text('شماره وارد در سیستم موجود است ')
+                    $("#phonenumber").css('border-bottom-color','red')
+                    $("#send").attr('disabled','disabled')
+
+                    }
+                else if (result.stat == 'noError'){
+                    $("#phoneError").text('')
+                    $("#phonenumber").css('border-bottom-color','#41b3a3')
+                    $("#send").removeAttr('disabled')
+                }
+            })
+        }
+    });
+});
+
+
+
+function checkPersian(evt,self){
+    charList = [1590,1589,1579,1602,1601,1594,1593,1607,1582,1581,1580,1670,1662,1711,1705,1605,1606,1578,1575,1604,1576,1740,1587,1588,1592,1591,1586,1585,1584,1583,1574,1608,46,32,8,9,13]
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+     if (charList.indexOf(charCode) > -1){$(self).popover('hide');$(self).css('border-color','');return true}
+    else{
+        $(self).css('border-color','red')
+        $(self).popover({content:'لطفا فارسی بنویسید'})
+        $(self).popover('show')
+        return false;
+        }
+}
+
+function checkUserInput(evt,self){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode == 64 || charCode == 95 || charCode == 8 || (charCode <= 90 && charCode >= 65) ||  (charCode >= 97 && charCode <= 122) || (charCode >= 48 && charCode <= 57) ){$(self).popover('hide');$(self).css('border-color','');return true}
+    else{
+        $(self).css('border-color','red')
+        $(self).popover({content:'کارکتر های مجاز aتاz و AتاZ و @ و _ میباشند'})
+        $(self).popover('show')
+        return false;
+        }
+}
+
+function checkNumber(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+
+function sendInfo(){
+    data = {'name':$("#name").val(),'lastname':$("#lastName").val(),'pass':$("#pass").val(),'username':$("#username").val()}
+    showModal(addNewContentLoad)
+    $.post('{%url 'user:fillInfo' %}',data,function(data,stat){
+        if (data.stat == 'suc'){
+            window.location = data.redirect
+        }
+        else{
+            showModal(addNewContentErr,data.stat)
+        }
+    })
+}
+
+function checkUserName(self){
+    data = {username:$('#username').val()}
+    $.post('{%url 'user:checkusername' %}',data,function(data,res){
+        if (data.stat == 'success'){$('#sendInfo').removeAttr('disabled');$('#userStat').text('')}
+        else if (data.stat == 'userTaken'){$(self).css('border-color','red');$('#sendInfo').attr('disabled','disabled');$('#userStat').text('نام کاربری ثبت شده است')}
+        else{$('#sendInfo').removeAttr('disabled');$('#userStat').text('')}
+    })
+
+}
+
+function showPop(self){
+    if ($(self).attr('id') == 'name'){
+        $(self).popover({content:'نام باید فارسی باشد'})
+        $(self).popover('toggle')
+        }
+    else if ($(self).attr('id') == 'lastName'){
+        $(self).popover({content:'نام خانوادگی باید فارسی باشد'})
+        $(self).popover('toggle')
+    }
+    else if ($(self).attr('id') == 'username'){
+        $(self).popover({content:'میباشد (A...Z , a...z , 0...9 @ , _) کارکتر های مجاز '})
+        $(self).popover('toggle')
+    }
+    else if($(self).attr('id') == 'pass'){
+        $(self).popover({content:'از حروف فارسی و فاصله در رمز عبور استفاده نکنید'})
+        $(self).popover('toggle')
+    }
+}
+
+function hidePop(self){
+    $(self).popover('hide')
+}
+
+function addNewContentInfo(){
+    $("#modalContent").append("<form><div class='form-group'><label for='name'><h6 class='text-right'>نام </h6></label><input type='text' onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkPersian(event,this)' data-toggle='popover' data-placement='top' style='border-radius:5px;height:35px;font-size:20px' class='input  mySelect bg-light  mb-2 d-block w-100 ' id='name'></div><div class='form-group'><label for='code'><h6>نام خانوادگی </h6></label><input type='text' onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkPersian(event,this)' data-toggle='popover' data-placement='top' style='border-radius:5px;height:35px;font-size:20px' class='input  mySelect bg-light  mb-2 d-block w-100 ' id='lastName'></div><div class='form-group'><label for='username'><h6 class='text-right'>نام کاربری </h6></label><input type='text' onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkUserInput(event,this)' onkeyup='checkUserName()' data-toggle='popover' data-placement='top'   style='border-radius:5px;height:35px;font-size:20px' class='input  mySelect bg-light  mb-2 d-block w-100 ' id='username'><label id='userStat' style='color:red;font-size:13px;' for='username'></label></div><div class='form-group'><label for='code'><h6>رمز عبور </h6></label><input onfocusout='hidePop(this)' onfocus='showPop(this)' type='password' style='border-radius:5px;height:35px;font-size:20px' class='input  mySelect bg-light  mb-2 d-block w-100 ' id='pass'></div></form>")
+    $("#modalImage").append("<img src='{%static '/user.png' %}' width='100px' height='100px' >")
+    $("#modalFooter").append("<button onclick='sendInfo()' id='sendInfo' class='btn mybtn btn-block' style='background-color:#fc4445' >تایید</button>")
+    $('#messageModal').modal({
+    backdrop: 'static',
+    keyboard: false
+    })
+}
+
+function validateCode(){
+    data = {'code':$('#code').val()}
+    showModal(addNewContentLoad)
+    $.post('{%url 'user:validate' %}',data,function(data,stat){
+        if (data.stat == 'trueCode'){
+            showModal(addNewContentInfo)
+        }
+        else if (data.stat == 'wrongCode'){
+            showModal(addNewContentErr,data.stat)
+        }
+        else{
+            showModal(addNewContentErr,data.stat)
+        }
+    })
+}
+
+function checkL(self){
+    if ($(self).val().length == 4){
+        $('#send').removeAttr('disabled')
+    }
+    else{$('#send').attr('disabled','disabled')}
+}
+
+
+function addNewContentErr(err){
+    errName=''
+    if(err == 'wrongCode'){errName = 'کد اشتباه است';addNewContent()}
+    else if (err=='wrongDataCode'){errName='ورودی اشتباه';addNewContent()}
+    else if (err=='userExists'){errName='نام کاربری ثبت شده است';addNewContentInfo()}
+    else if(err == 'invalidUserChar'){errName='نام کاربری باید انگلیسی باشد کارکتر ها';addNewContentInfo()}
+    else if(err=='invalidName'){errName='نام باید فارسی باشد';addNewContentInfo()}
+    else if(err=='invalidLastname'){errName='نام خانوادکی باید فارسی باشد';addNewContentInfo()}
+    else if(err=='wrongData'){errName='ورودی اشتباه';addNewContentInfo()}
+    else if (err=='invalidPass'){errName='رمز غبور حاوی کارکتر غیر مجاز';addNewContentInfo()}
+    $("#modalErr").append("<div class='alert alert-danger alert-dismissble d-flex flex-row align-content-center justify-content-between'><h5 class='d-block '>"+errName+"</h5></div>")
+}
+
+function addNewContent(){
+    $("#modalContent").append("<form><div class='form-group'><label for='code'><h5 style='color:#fc4445'>کد ارسال شده </h5></label><input type='text' onkeyup='checkL(this)' onkeypress='return checkNumber(event)' maxlength='4' style='border-radius:5px;height:35px;font-size:20px' class='input text-center  mySelect bg-light  mb-2 d-block w-100 ' id='code'></div></form>")
+    $("#modalImage").append("<img src='{%static '/sms.png' %}' width='100px' height='100px' >")
+    $("#modalFooter").append("<a href='/User/Register/' class='mb-3' style='font-size:13px;color:#126261'>تغییر شماره</a><button id='send' class='btn mybtn btn-block' style='background-color:#fc4445' disabled onclick='validateCode()' >تایید</button> ")
+    $('#messageModal').modal({
+    backdrop: 'static',
+    keyboard: false
+    })
+}
+
+function addNewContentLoad(){
+    $("#modalContent").append("<h6 '>...لطفا صبر کنید</h6>")
+       $("#modalImage").append("<img src='{%static '/load.gif' %}' width='160px' height='160px' >")
+           $('#messageModal').modal({
+    backdrop: 'static',
+    keyboard: false
+    })
+}
+
+function Submit(){
+    showModal(addNewContentLoad)
+    data = {'phoneNumber':$("#phonenumber").val(),'captcha':$("#captcha").val()}
+    $.post('/User/Register/',data,function(data, status){
+        if (data.sendSms == true){
+            showModal(addNewContent)
+        }
+        else{
+            window.location = data.redirect
+        }
+    })
+}
+
+
+</script>
+<html>
+    <body>
+        <div class="row d-flex flex-column justify-content-center align-content-center">
+            <div class="card m-4 shadow bg-light " style="width:80%">
+
+                <div class="p-4 card-header text-center bg-dark" style=";color:white">
+                   <h4>ثبت نام</h4>
+                </div>
+                <div class="card-body">
+
+                <form  class="pt-3 pb-3 text-right">
+                    {%if messages %}
+                        <div class="alert alert-danger alert-dismissble d-flex flex-row justify-content-between mr-5 ml-5" >
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {%for message in messages %}
+                                <p class="d-block">{{ message }}</p>
+                            {%endfor%}
+                        </div>
+                    {%endif%}
+                    <span style="color:#fc4445" class="mb-3 mt-4 small" >اکر حساب دارید <a href="{%url 'user:login' %}">وارد</a> شوید</span>
+                    <div class="form-group text-right">
+                        <label style="color:grey" class="mb-3 mt-4 small" for="phonenumber">اطلاعات حساب کاربری از طریق پیام کوتاه به شما ارسال میشود</label>
+                        {% if phoneNumber %}
+                            <input type="text"  value={{phoneNumber}} class="d-block w-100 mb-0 textInput bg-light" id='phonenumber' placeholder="شماره تماس" class="form-control" name='phoneNumber'>
+                        {%else%}
+                            <input type="text"  class="d-block w-100 mb-0 textInput bg-light" id='phonenumber' placeholder="شماره تماس" class="form-control" name='phoneNumber'>
+                        {%endif%}
+                        <label style="color:red" id="phoneError" class="mb-4 small" for="phonenumber"></label>
+
+                    </div>
+                    <div class="form-group text-right">
+                        <input type="text" class="d-block w-100  textInput bg-light" id="captcha" placeholder="کد امنیتی تصویر" class="form-control" name='captcha'>
+                    </div>
+                    <div class="d-flex flex-row justify-content-center mt-3 mb-4">
+                        <img id="img" src="/User/getCaptcha">
+                    </div>
+                    <div class="d-flex flex-row justify-content-center aling-content-center">
+                        <button type="button" onclick="Submit()" id="send" class="btn mybtn  mb-2" style="background-color:#fc4445;height:50px;width:50%;border-radius:50px;" >ثبت نام</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </body>
+</html>
+{%endblock%}

@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+{% extends 'Base/Base.html' %}
+
+{% block mainBlockContainer %}
+{% load staticfiles %}
+
+{% if request.session.help %}
+<div class="modal fade hide" id="help">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-light">
+        <!-- Modal Header -->
+        <div class="modal-header d-flex flex-row justify-content-between" style="border:none">
+                <div>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div>
+                    <h4 class="modal-title " style="color:#41b3a3">اموزش خرید محصول</h4>
+                </div>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body text-right">
+            <p>ابتدا از <a href="{% url 'user:register' %}">اینجا</a> ثبت نام کنید</p>
+            <p>اطلاعات کاربری به شما ارسال میشود سپس وارد حساب کاربری شوید</p>
+			<p>در صفحه هدایت شده اطلاعات شخصی خود را وارد کنید</p>
+			<p>حالا میتوانید با کلیک بر روی اضافه کردن به سبد خرید محصول را اضافه کنید</p>
+			<p>بر روی سبد خرید در بالای صفحه کلیک کنید و سفارش خود را نهایی کنید</p>
+        </div>
+		  <div class="modal-footer text-right">
+			  <button data-dismiss="modal" id="dontShowHelp" style="color:white" class="mybtn btn  btn-block buyButton" style="margin:">دیگه این پیام نشون نده !</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endif%}
+
+{% for obj in carList %}
+<hr class="mt-5 mb-2">
+	<div sclass="d-flex mt-5 flex-column ">
+		<div class="d-flex flex-row justify-content-between">
+			<div class=" text-left col-md-6">
+					<p><a href="{%url 'books:index' typeId=3 indexId=obj.car.id name=obj.car.name %}" class="cardHeader d-inline" style="color:#3385ff;text-decoration:none;"><h6>بیشتر<span><i class="fa fa-angle-down"></i></span></h6></a></p>
+			</div>
+			<div class="col-md-6 text-right">
+				<p><a href="{%url 'books:index' typeId=3 indexId=obj.car.id name=obj.car.name %}" class="cardHeader d-inline" style="color:#343a40;text-decoration:none;"><h5>{{obj.car.name}}</h5></a></p>
+			</div>
+		</div>
+		<div class="owl-carousel owl-theme">
+			<!--card wrapper -->
+			{% for book in obj.books %}
+			<div style="background-color:#ffffff;border:none;border-radius:6px;height:500px" class=" card p-5 mt-2  text-right "  >
+				<!--card inside -->
+				<div  class="card-image-top cardImg d-flex flex-row justify-content-center">
+
+						<a  href="{%url 'books:detail' pId=book.id name=book.name %}">
+							<img class="lazyOwl shadow shadowH " src="{%static book.image.url %}"  style="border-bottom:3px solid #e61919;border-radius:4px;width:100%;height:200px;">
+						</a>
+				</div>
+				<div class="cardContent">
+					<p class="text-center mt-3"><a class="cardLink" href="{%url 'books:detail' pId=book.id name=book.name %}" style="margin:2px;text-decoration:none;color:#262626;">{{book.name}}</a></p>
+					<p class="text-center mt-3"><a class="cardLink" href="#" style="margin:2px;text-decoration:none;color:#262626;">{{book.publisher.name}}</a></p>
+				</div>
+				<div class="cardFooter text-center" style="height:20%">
+					{% if book.calculatePrice.stat %}
+					<p class="newPrice" style="color:#41b3a3;font-size:16px;">{{book.price}} ریال</p>
+					<p class="oldPrice" style="text-decoration:line-through;color:grey;font-size:13px;">{{book.price}} ریال</p>
+					{%else%}
+					<p class="newPrice" style="color:#41b3a3;font-size:16px;">{{book.price}} ریال</p>
+					<p class="oldPrice" style="text-decoration:line-through;color:grey;font-size:13px;"> </p>
+					{%endif%}
+				</div>
+				<div class="cardBuy ">
+					{%if book.available %}
+						<a onclick="addItem(this)" id={{book.id}} style="border-radius:40px;color:black" class="mybtn btn  shadow btn-block buyButton" style="margin:">افزودن به سبد خرید  <i class="fa fa-cart-plus" style="font-size:16px"></i> </a>
+					{%else%}
+						<a  style="color:white;border-radius:40px;" class="shadow mybtn bg-dark btn  btn-block buyButton">اطلاع از موجودی<i class="fa fa-cart-plus" style="font-size:16px"></i> </a>
+					{%endif%}
+				</div>
+			</div>
+			{%endfor%}
+		</div>
+	</div>
+	{%endfor%}
+
+	<hr  style="width:70%;color:grey">
+
+</div>
+
+<div class="container-fluid">
+<div class="row d-flex flex-row justify-content-center p-5" style="background-image:url({%static '22.jpg'%});background-attachment: fixed;background-size: 100% 100%;">
+	<div class="card mt-5 mb-5">
+		<div class="card-body">
+			ss
+		</div>
+	</div>
+</div>
+</div>
+
+{%endblock%}
+
+
+
+{%block mainBlock%}
+<div class="container">
+	<div class="row mt-4">
+
+	<div id="demo" class="carousel slide " data-ride="carousel" >
+		<ul class="carousel-indicators">
+			<li data-target="#demo" data-slide-to="0" class="active"></li>
+			<li data-target="#demo" data-slide-to="1"></li>
+			<li data-target="#demo" data-slide-to="2"></li>
+		</ul>
+		<div class="carousel-inner">
+			{% for img in bannerImages %}
+			{% if img.active %}
+			<div class="carousel-item active">
+				<a href="#">
+					<img src="{%static img.image.url %}" class="img" style="max-width:100%;height:auto"   >
+				</a>
+			</div>
+			{%else%}
+			<div class="carousel-item">
+				<a href="#">
+					<img src="{%static img.image.url %}" style="max-width:100%;height:auto" >
+				</a>
+			</div>
+			{%endif%}
+			{%endfor%}
+
+		</div>
+		<a class="carousel-control-prev" href="#demo" data-slide="prev">
+			<span class="carousel-control-prev-icon"></span>
+		</a>
+		<a class="carousel-control-next" href="#demo" data-slide="next">
+			<span class="carousel-control-next-icon"></span>
+		</a>
+	</div>
+			</div>
+</div>
+{% endblock %}

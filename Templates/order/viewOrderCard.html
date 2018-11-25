@@ -1,0 +1,500 @@
+{% extends 'Base/Base.html' %}
+{%load staticfiles%}
+{%load persian%}
+{%block mainBlock%}
+<script>
+
+
+    <!--modal Config-->
+
+
+    function deleteItemPost(){
+        bookId = $("#messageModal").attr('bookId')
+        $("#messageModal").removeAttr('bookId')
+        $.post('/Order/removeItem/',{id:bookId},function(data,stat){
+            console.log(data)
+            if (data.stat == 'deleted'){
+                    changeModal(deleteItemSuccess)
+				}
+            else if (data.stat == 'redirect'){
+                window.location = data.url
+            }
+        })
+    }
+
+       function deleteItemSuccess(){
+            $("#modalImage").append("<img src='{%static '/success.png' %}' width='100px' height='100px' >")
+            $("#modalContent").append("<h4>کالا حذف شد</h4>")
+           $("#modalFooter").append("<button style='background-color:#bf3d27;color:white' class='d-inline btn' onclick='hideModal()' >بستن</button>")
+           setTimeout(function(){hideModal();window.location = window.location.href},1000)
+    }
+
+    function deleteModalConf(elem){
+        bookId = $(elem).parent().attr('id')
+        $('#messageModal').attr('BookId',bookId)
+         $("#modalImage").append("<img src='{%static '/alert.png' %}' width='100px' height='100px' >")
+         $("#modalContent").append("<h4>حذف کالا</h4><h6>از حذف کالا مطمنید؟</h6>")
+         $("#modalFooter").append("<button style='background-color:#17a2b8;color:white' onclick='deleteItemPost()' class='d-inline btn '>بله</button><button style='background-color:#bf3d27;color:white' class='d-inline btn' onclick='hideModal()'>خیر</button>")
+    }
+
+    <!--____________________________________________________-->
+
+
+    function calculatePost(){
+        weight = $('#allWeight').text()
+        $('#onePrice').text(parseInt(weight)*2)
+        $('#twoPrice').text(parseInt(weight)*3)
+        $('#threePrice').text(parseInt(weight)*4)
+    }
+
+    function changeQuantity(elem){
+        count = parseInt($('#count').text())
+        weight = parseInt($('#allWeight').text())
+        oldVal = $(elem).attr('val')
+        newVal = $(elem).val()
+        $(elem).attr('val',newVal)
+        c = parseInt(newVal) - parseInt(oldVal)
+        w = $(elem).closest('div.item').attr('w')
+        itemId = $(elem).closest('div.item').attr('item')
+        $.post('/Order/changeQuantity/',{'itemId':itemId,'quantity':newVal},function(res,stat){
+            showModal(addNewContentLoad)
+            if (res.stat == 'done'){
+                  wminus = c * parseInt(w)
+        $('#allWeight').text(weight + wminus)
+        calculatePost()
+                       qu = $('#count').text(count+c)
+                       priceElem = $(elem).closest('div.item').find('span.Price')
+                        allPriceElem = $(elem).closest('div.item').find('span.allPrice')
+                         priceElemVal = parseInt(priceElem.text())
+                         allPriceElem.text(priceElemVal*newVal)
+                        $(elem).attr("val",newVal)
+                        changePrice()
+                showModal(addNewContentSuccess,{message:'با موفقیت اضافه شد',wait:{stat:false}})
+            }
+
+        })
+
+
+
+
+
+
+    }
+    function changePrice(){
+        var allPrice = 0
+        var allDiscount = 0
+        $("span.allPrice").each(function(){
+            allPrice += parseInt($(this).text())
+        })
+        $("span.Discount").each(function(){
+            pp = parseInt($(this).parent().parent().parent().find('span.allPrice').first().text())
+            ip =  parseInt($(this).parent().parent().parent().find('span.Price').first().text())
+            number = pp/ip
+            allDiscount += number * (parseInt($(this).text()) - ip)
+        })
+        $("#priceSum").text(allPrice)
+        $("#discountSum").text(allDiscount)
+    }
+
+    function changeAllPrice(){
+        all = parseInt($("#priceSum").text())
+        $("#trPrice").text()
+    }
+
+    <!--.......-->
+
+function sendData(){
+        showModal(addNewContentLoad)
+        data = {'id':$('#id').val(),'address':$('#adr').val(),'number':$('#number').val(),'postCode':$('#postCode').val(),'city':$('#city').val(),'country':$('#country').val()}
+        $.post('/UserPanel/Address/',data,function(data,res){
+            if(data.redirect != undefined){
+                window.location = window.location.href
+            }
+            else{
+                showModal(addNewContentSuccess,{message:'ادرس شما با موفقیت ثبت شد',wait:{stat:true,time:1000}})
+            }
+        })
+    }
+
+function editAddr(){
+        $("#id").attr('value','-1')
+        $("#number").val('')
+        $("#postCode").val('')
+        $("#adr").val('')
+        CcTrigger('تهران')
+        toggleCollapse()
+    }
+    function CcTrigger(dt){
+            var firstDataPlace = $("#country").find(":selected")
+                var secondDataPlace = $("#"+dt)
+                var firstData = firstDataPlace.text()
+                var secondData = dt
+
+                secondDataPlace.text(firstData)
+                secondDataPlace.attr('value',firstData)
+
+                console.log(firstDataPlace)
+                firstDataPlace.text(secondData)
+                firstDataPlace.attr('value',secondData)
+            $('#city').addClass("temp");
+                loadCity(dt);
+                $.each( selectValues , function (key, value) {
+                    $(".temp")
+                    .append($("<option></option>")
+                    .attr("value", key)
+                    .text(value));
+                });
+                $(".temp").removeClass("temp");
+        }
+    function changeVal(self){
+        $("#id").attr('value',self.getAttribute("addrId"))
+    }
+    function getData(self){
+        url = "/UserPanel/GetAddr/?id=" + self.getAttribute("addrId")
+        $.get(url, function(data, status){
+            if (data.addr != 'err'){
+                CcTrigger(data.country)
+                $("#number").val(data.phone)
+                $("#postCode").val(data.postcode)
+                $("#adr").val(data.addr)
+                showCollapse()
+            }
+            else{
+
+            }
+        });
+    }
+    function showCollapse(){$("#addAddr").collapse('show')}
+
+    function toggleCollapse(){$("#addAddr").collapse('toggle')}
+
+    function selectAddr(addrId){
+        $('#addrStat').text(':) انتخاب شده ')
+        $('#addrStat').css('color','green')
+        allAddrs = $(".addrCard[selected='selected']")
+        if (allAddrs.length >= 1){
+            allAddrs.each(function(){
+                $(this).removeAttr('selected')
+                $(this).css('border-bottom','')
+            })
+        }
+        $('#'+addrId).attr('selected','selected')
+        $('#'+addrId).css('border-bottom','1.4px solid #126261')
+        $('#addrIdSet').attr('value',addrId)
+
+    }
+
+    function selectPost(Id){
+        allPost = $(".postCard[selected='selected']")
+        if (allPost.length >= 1){
+            allPost.each(function(){
+                $(this).removeAttr('selected')
+                $(this).css('border','')
+            })
+        }
+        $('#'+Id).attr('selected','selected')
+        $('#'+Id).css('border','1.4px solid #126261')
+        $('#postStat').text(':) انتخاب شده')
+        $('#postStat').css('color','green')
+        $('#postIdSet').attr('value',Id)
+
+    }
+    function addNewContentAcc(id){
+        $("#modalImage").append("<img src='{%static '/alert.png' %}' width='100px' height='100px' >")
+        $("#modalContent").append("<p>از حذف ادرس اطمینان دارید؟</p>")
+        $("#modalFooter").append("<button onclick='deleteItem("+ id +")' class='btn mybtn btn-danger btn-block' data-dismiss='modal'>بله</button><button class='btn mybtn btn-block' data-dismiss='modal' >خیر</button> ")
+    }
+
+    function deleteItem(id){
+        url = "/UserPanel/removeAddr/?id=" + id
+        showModal(addNewContentLoad)
+        $.get(url, function(data, status){
+            if (data.stat != 'err'){
+                showModal(addNewContentSuccess,{message:'ادرس شما با موفقیت حذف شد',wait:{stat:true,time:1000}})
+            }
+            else{
+                window.location = window.location.href
+            }
+        });
+    }
+
+    function showPop(self){
+    if ($(self).attr('id') == 'number'){
+        $(self).popover({content:'شماره باید اعداد باشد'})
+        $(self).popover('toggle')
+        }
+    else if ($(self).attr('id') == 'postCode'){
+        $(self).popover({content:'کد پستی باید اعداد باشد'})
+        $(self).popover('toggle')
+    }
+    else if ($(self).attr('id') == 'address'){
+        $(self).popover({content:'ادرس باید فارسی باشد'})
+        $(self).popover('toggle')
+    }
+}
+
+function scroll(){
+    var scrollTop = $(window).scrollTop();
+    var topOffset = $("#addrStat").offset().top;
+    var relativeOffset = topOffset-scrollTop;
+    // get the window height
+    window.scrollTo(0,relativeOffset);
+    var windowHeight = $(window).height();
+
+}
+
+function hidePop(self){
+    $(self).popover('hide')
+}
+</script>
+{% if purchaseList == 'empty' %}
+    			<div class="col-md-12">
+						<div class="shadow text-center m-5 d-flex flex-column justify-content-center align-content-center" style="height:20vh;background-color:#f2f2f2;">
+							<div> سبد خرید شما خالیست </div>
+						</div>
+					</div>
+{%else%}
+<div class="mt-2 mb-2">
+{%if messages %}
+        <div class="alert alert-danger alert-dismissble d-flex flex-row justify-content-between mr-5 ml-5" >
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {%for message in messages %}
+                <p >{{ message }}</p>
+            {%endfor%}
+        </div>
+        {%endif%}
+</div>
+<div class="card mt-3 mb-3" style="border-bottom:8px solid #fc4445">
+    <div class="card-header text-center" style="background-color:#fc6565;color:white">
+        <h6>اطلاعات سبد خرید</h6>
+    </div>
+    <div style="position:relative" class="row d-flex flex-row-reverse">
+        <div class="col-md-8">
+<div class="row ">
+    {%for item in purchaseList%}
+    <div item={{item.id}} w={{item.getItemWeight}} class="item col-md-12">
+        <div class="card mt-4 mb-2 mr-3" style="border:none;border-radius:0px;border-bottom:1px solid lightgrey">
+            <div class="row d-flex flex-row-reverse" >
+                <div  class="col-md-1 d-flex flex-column justify-content-center align-content-center text-center">
+                    <div id={{item.book.id}} style="height:24px"><img style="cursor:pointer" onclick="showModal(deleteModalConf,this)" width="15px" height="15px" src="{%static 'delete.png' %}"></img></div>
+                </div>
+                <div class="col-md-5 d-flex flex-row-reverse" >
+                    <div style="border-radius:5px" class="col-md-6 mt-3 mb-3 m-0" >
+                        <img  class="shadow" src="{%static item.book.image.url %}" width="80px" height="120px">
+                    </div>
+                    <div class="col-md-6 mb-3 mt-3 text-right">
+                        <span style="font-size:14px">{{item.book.name}}</span>
+                        <div><span style="font-size:12px">{{item.book.publisher}} </span></div>
+                        <div><span style="font-size:12px">{{item.book.printNumber}} </span><span style="font-size:12px">:نوبت چاپ</span></div>
+                        <div><span style="font-size:12px">{{item.book.discount}}% </span><span style="font-size:12px">:تخفیف</span></div>
+                    </div>
+                </div>
+                <div class=" col-md-4 d-flex flex-column text-center mb-3 mt-4 ">
+                    {%if item.book.calculatePriceWithDiscount.stat%}
+                    <div> <span style="font-size:11px">قبل از تخفیف: </span> <span class="oldPrice" style="text-decoration:line-through;color:grey;font-size:11px;"><span class="Discount">{{item.book.price}}</span> ریال</span></div>
+                    <div><span style="font-size:11px">بعد از تخفیف: </span><span class="newPrice" style="color:#41b3a3;font-size:14px;"><span class="Price">{{item.book.calculatePriceWithDiscount.price}}</span> ریال</span></div>
+                    <div class="Price"><span style="font-size:11px">قیمت کل: </span><span style="color:#41b3a3;font-size:14px;"><span class="allPrice" >{{item.getItemPriceWithDiscount}}</span> ریال</span></div>
+                    {%else%}
+                    <div><span style="font-size:11px">قیمت واحد: </span><span class="newPrice" style="color:#41b3a3;font-size:14px;"><span class="Price">{{item.book.calculatePriceWithDiscount.price}}</span> ریال</span></div>
+                    <div class="Price"><span style="font-size:11px">قیمت کل: </span><span style="color:#41b3a3;font-size:14px;"><span class="allPrice" >{{item.getItemPriceWithDiscount}}</span> ریال</span></div>
+                    {%endif%}
+                </div>
+                <div  class="col-md-2 d-flex flex-column align-content-center justify-content-center ">
+                    <div class="text-center mb-1" style="font-size:13px">تعداد</div>
+                    <div class="mb-4 mr-2 ml-2 d-flex flex-row justify-content-center" >
+                        <input class="quInput" value="{{item.quanity}}" val="{{item.quanity}}" onchange="changeQuantity(this)" type="number" min="0" max="100" style="text-align:center;border:1px solid lightgrey;border-radius:5px;width:80px">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+        </div>
+            </div>
+        <div class="col-md-4">
+            <div class="card m-4 mb-2 ">
+                <table class="table table-striped">
+                    <tr>
+                        <td style="direction:rtl" ><span style="font-size:12px"><span id="priceSum">{{card.getCardRealPrice}}</span> ریال</span></td>
+                        <td class="text-right"><span style="font-size:12px">:جمع کل خرید</span></td>
+                    </tr>
+                    <tr>
+                        <td style="direction:rtl"><span style="font-size:12px"><span id="discountSum">{{allDiscount}}</span> ریال</span></td>
+                        <td class="text-right"><span style="font-size:12px">:مقدار تخفیف</span></td>
+                    </tr>
+                    <tr>
+                        <td style="direction:rtl"><span style="font-size:12px"><span id="allWeight">{{card.getCardWeight}}</span><span>گرم </span></span></td>
+                        <td class="text-right"><span style="font-size:12px">:وزن کل</span></td>
+                    </tr>
+                    <tr>
+                        <td style="direction:rtl"><span style="font-size:12px"><span id="postPrice"> - </span><span>ریال </span></span></td>
+                        <td class="text-right"><span style="font-size:12px">:هزینه پست</span></td>
+                    </tr>
+                    <tr>
+                        <td style="direction:rtl"><span style="font-size:12px"><span id="trPrice">-</span> ریال</span></td>
+                        <td class="text-right"><span style="font-size:12px">:مبلغ قابل پرداخت</span></td>
+                    </tr>
+                    <tr>
+                        <td class="d-flex flex-row justify-content-center"><button form='sendForm' class="shadow btn btn-info btn-block" type="submit">   نهایی کردن خرید  <span class="fa fa-shopping-cart"></span></button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+</div>
+    <div class="row ml-1 mr-1">
+        <div class="col-md-6">
+            <div id="address">
+    <div class="card mt-2 mb-2">
+      <div class="card-header d-flex flex-row justify-content-between">
+          <span id='addrStat' style="color:#fc6565">ادرسی انتخاب نشده است</span>
+          <button onclick="document.getElementById('addrCollapse').scrollIntoView();" data-toggle="collapse" href="#addrCollapse" style="height:50px" class="btn mybtn">انتخاب ادرس</button>
+      </div>
+      <div id="addrCollapse" class="collapse hide" data-parent="#address">
+        <div class="card-body text-center">
+            {%if allAddress%}
+                {%for addr in allAddress%}
+                    <div class="card addrCard" id={{addr.id}} style="border:none;border-radius:0;border-bottom:0.7px solid lightgrey">
+                        <div class="card-body text-right">
+                            <div class="row">
+                                <div class="col-md-3 mb-2 d-flex flex-row justify-content-center" >
+                                    <i addrId={{addr.id}} onclick="changeVal(this);getData(this)" class="fa fa-edit mr-2" style="font-size:33px;cursor:pointer"></i>
+                                    <i addrId={{addr.id}} onclick="showModal(addNewContentAcc,this.getAttribute('addrId'))" class="fa fa-trash mr-2" style="font-size:33px;cursor:pointer"></i>
+                                    <button addrId={{addr.id}} onclick="selectAddr(this.getAttribute('addrId'))" class="btn addrSelect mybtn mr-2 " style="height:35px">انتخاب</button>
+                                </div>
+                                <div class="col-md-9">
+                                    <span style="font-size:13px">{{addr.returnFullAddress}}</span><br>
+                                    <span style="font-size:13px">کدپستی : {{addr.postCode}}</span>
+                                    <span style="font-size:13px"> تلفن ثابت : {{addr.telephone}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {%endfor%}
+            {%else%}
+                <p>ادرسی ثبت نشده است!!</p>
+                <p>لطفا ادرس خود را اضافه نمایید</p>
+            {%endif%}
+        </div>
+          <div class="card-footer" style="background-color:#ffffff;border-top:none">
+              <div id="addNewAddr">
+                  <div class="card" style="border:none">
+                      <div style="background-color:#ffffff;border:none" class="card-header d-flex flex-row justify-content-center">
+                          <button data-toggle="collapse" onclick="editAddr()" class="btn mybtn">اضافه کردن ادرس جدید</button>
+                      </div>
+                      <div id="addAddr" class="collapse hide" data-parent="#addNewAddr">
+                          <div class="card-body">
+                              <div class="row">
+                                  <div class="col-md-12 ">
+                              <form action="/UserPanel/AddressManager/" method="POST" class="text-right">
+                                <input  id="id" type="hidden" value="-1" name="id">
+                                <div class="form-group p-0">
+                                    <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                                        <div class="col-md-3">
+                                            <label class="grey" for="number">شماره ثابت</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input  class="grey panelInput w-100 d-block mb-0 bg-light" id="number" onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkNumber(event,this)' data-toggle='popover' data-placement='top' type="text" value="{{telephone}}" name="number">
+                                        </div>
+                                    </div>
+                                    <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                                        <div class="col-md-3">
+                                            <label class="grey" for="country">استان</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <select size="1" class="grey panelInput w-100 d-block mb-0 bg-light" id="country"  name="country"></select>
+                                        </div>
+                                    </div>
+                                    <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                                        <div class="col-md-3">
+                                            <label class="grey" for="city">شهر</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <select size="1" class="grey panelInput w-100 d-block mb-0 bg-light" id="city"  name="city"><option>{{city}}</option></select>
+                                        </div>
+                                    </div>
+                                    <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                                        <div class="col-md-3">
+                                            <label class="grey" for="postCode">کد پستی</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input  class="grey panelInput w-100 d-block mb-0 bg-light" id="postCode" type="text"  onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkNumber(event,this)' data-toggle='popover' data-placement='top' name="postCode">
+                                        </div>
+                                    </div>
+                                <div  class="row pb-2 m-0 p-0 d-flex flex-row-reverse">
+                                    <div class="col-md-3">
+                                        <label class="grey" for="address">ادرس کامل</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input class="grey panelInput w-100 d-block mb-0 bg-light" id="adr" type="text"  onfocusout='hidePop(this)' onfocus='showPop(this)' onkeypress='return checkPersian(event,this)' data-toggle='popover' data-placement='top' name="address">
+                                    </div>
+                                </div>
+                                <div  class="row pb-3 m-0 p-0 d-flex flex-row-reverse">
+                                    <div class="col-md-12  mb-0 mt-2">
+                                        <button type="button" onclick="sendData()" class="btn btn-block mybtn">ثبت</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+          </div>
+      </div>
+    </div>
+</div>
+</div>
+
+        </div>
+        <div class="col-md-6">
+            <div id="postType">
+            <div class="card mt-2 mb-4" >
+                <div class="card-header d-flex flex-row justify-content-between">
+          <span id='postStat' style="color:#fc6565">نوع ارسال انتخاب نشده است</span>
+          <button data-toggle="collapse" href="#postCollapse" style="height:50px" class="btn mybtn">انتخاب نوع ارسال</button>
+      </div>
+                <div id="postCollapse" class="collapse hide" data-parent="#postType">
+        <div class="card-body text-right">
+            <div id='one' class="card m-0 p-4 mb-2 postCard">
+                <div class="row">
+                    <div id='onePrice' style="font-size:13px" class="col-md-2"><span style="color:#fc6565">قیمت : </span>{{card.calculatePostPrice.one}} ریال</div>
+                    <div style="font-size:13px" class="col-md-7"><span style="color:#fc6565">توضیحات : </span>سفارشات قبل از ساعت 18 ، روز کاری بعد تحویل پست می شود و نهایتا 2 تا 4 روز کاری به دست شما می رسد.</div>
+                    <div style="font-size:13px" class="col-md-2"><span style="color:#fc6565">عنوان : </span>پیشتاز</div>
+                    <div style="font-size:13px" class="col-md-1 d-flex flex-row justify-content-center align-content-center" ><button style="height:30px" onclick="selectPost('one')" class="btn mybtn">انتخاب</button></div>
+                </div>
+
+            </div>
+            <div id='two' class="card mb-2 p-4 postCard">
+                <div class="row">
+                    <div id='twoPrice' style="font-size:13px" class="col-md-2"><span style="color:#fc6565">قیمت : </span>{{card.calculatePostPrice.two}} ریال</div>
+                    <div style="font-size:13px" class="col-md-7"><span style="color:#fc6565">توضیحات : </span>سفارشات قبل از ساعت 18 ، روز کاری بعد تحویل پست می شود و نهایتا 4 تا 7 روز کاری به دست شما می رسد.</div>
+                    <div style="font-size:13px" class="col-md-2"><span style="color:#fc6565">عنوان : </span>سفارشی</div>
+                    <div style="font-size:13px" class="col-md-1 d-flex flex-row justify-content-center align-content-center" ><button style="height:30px" onclick="selectPost('two')" class="btn mybtn">انتخاب</button></div>
+
+                </div>
+            </div>
+            <div id='three' class="card mb-2 p-4 postCard">
+                <div class="row">
+                    <div id='threePrice' style="font-size:13px" class="col-md-2"><span style="color:#fc6565">قیمت : </span>{{card.calculatePostPrice.three}} ریال</div>
+                    <div style="font-size:13px" class="col-md-7"><span style="color:#fc6565">توضیحات : </span>سفارشات قبل از ساعت 18 ، روز کاری بعد تحویل پست می شود و نهایتا 2 تا 4 روز کاری به دست شما می رسد.</div>
+                    <div style="font-size:13px" class="col-md-2"><span style="color:#fc6565">عنوان : </span>ویژه</div>
+                    <div style="font-size:13px" class="col-md-1 d-flex flex-row justify-content-center align-content-center" ><button style="height:30px" onclick="selectPost('three')" class="btn mybtn">انتخاب</button></div>
+                </div>
+            </div>
+        </div>
+                </div>
+    </div>
+        </div>
+        </div>
+
+        <div id="btn"  class="row d-flex flex-row justify-content-center m-3">
+            <form id='sendForm' action="{%url 'shoppingCard:orderConfirmPost'%}" method="post">
+                <input type="hidden" id="addrIdSet" name="addrId" value="">
+                <input type="hidden" id="postIdSet" name="postId" value="">
+            </form>
+        </div>
+
+    </div>
+{%endif%}
+{%endblock%}
